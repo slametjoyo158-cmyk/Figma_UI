@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asesmen Awal Dasar UI/UX - DKV XI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }
+        .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); }
+        .option-card:hover { transform: translateY(-2px); transition: all 0.2s; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <!-- Login Container -->
+    <div id="login-section" class="w-full max-w-md glass-card p-8 rounded-2xl shadow-xl">
+        <div class="text-center mb-8">
+            <div class="inline-block p-3 bg-blue-100 rounded-xl mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+            </div>
+            <h1 class="text-2xl font-bold text-gray-800">Asesmen Awal UI/UX</h1>
+            <p class="text-gray-500">DKV XI - Perangkat Lunak Desain</p>
+        </div>
+        
+        <form id="login-form" class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
+                <input type="text" id="student-name" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Masukkan nama Anda">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">NIS</label>
+                <input type="number" id="student-nis" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Masukkan nomor induk">
+            </div>
+            <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-3 rounded-xl hover:bg-blue-700 transition duration-300 shadow-lg shadow-blue-200">
+                Mulai Asesmen
+            </button>
+        </form>
+    </div>
+
+    <!-- Quiz Container -->
+    <div id="quiz-section" class="hidden w-full max-w-2xl glass-card p-8 rounded-2xl shadow-xl">
+        <div class="flex justify-between items-center mb-6">
+            <span id="question-counter" class="text-sm font-semibold text-blue-600 bg-blue-50 px-3 py-1 rounded-full">Soal 1 / 15</span>
+            <div class="flex items-center text-gray-500 text-sm">
+                <span id="timer">00:00</span>
+            </div>
+        </div>
+
+        <div id="quiz-content">
+            <h2 id="question-text" class="text-xl font-bold text-gray-800 mb-6 leading-relaxed">Pertanyaan akan muncul di sini?</h2>
+            <div id="options-container" class="space-y-3">
+                <!-- Opsi Jawaban -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Score Container -->
+    <div id="result-section" class="hidden w-full max-w-md glass-card p-10 rounded-2xl shadow-xl text-center">
+        <div id="score-circle" class="w-32 h-32 rounded-full border-8 border-blue-600 flex items-center justify-center mx-auto mb-6">
+            <span id="final-score" class="text-4xl font-bold text-blue-600">0</span>
+        </div>
+        <h2 id="student-display-name" class="text-2xl font-bold text-gray-800 mb-2">Hebat, Nama!</h2>
+        <p id="result-message" class="text-gray-500 mb-8">Anda telah menyelesaikan asesmen awal UI/UX.</p>
+        
+        <div class="grid grid-cols-2 gap-4 mb-8">
+            <div class="bg-green-50 p-4 rounded-xl">
+                <p class="text-xs text-green-600 font-bold uppercase">Benar</p>
+                <p id="correct-count" class="text-xl font-bold text-green-700">0</p>
+            </div>
+            <div class="bg-red-50 p-4 rounded-xl">
+                <p class="text-xs text-red-600 font-bold uppercase">Salah</p>
+                <p id="wrong-count" class="text-xl font-bold text-red-700">0</p>
+            </div>
+        </div>
+
+        <button onclick="location.reload()" class="w-full bg-gray-800 text-white font-semibold py-3 rounded-xl hover:bg-gray-900 transition duration-300">
+            Ulangi Tes
+        </button>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                q: "Apa kepanjangan dari UI dalam desain perangkat lunak?",
+                options: ["User Integrated", "User Interface", "User Interaction", "Uniform Interface", "User Instruction"],
+                a: 1
+            },
+            {
+                q: "Apa tujuan utama dari User Experience (UX)?",
+                options: ["Membuat aplikasi terlihat sangat berwarna", "Meningkatkan kecepatan server", "Memastikan pengguna merasa nyaman dan mudah mencapai tujuannya", "Menghapus bug dalam kode program", "Memperkecil ukuran file aplikasi"],
+                a: 2
+            },
+            {
+                q: "Elemen manakah yang termasuk dalam kategori UI Design?",
+                options: ["Alur pendaftaran pengguna", "Struktur basis data", "Pemilihan warna dan tipografi", "Kecepatan loading halaman", "Strategi bisnis aplikasi"],
+                a: 2
+            },
+            {
+                q: "Analogi 'rasa makanan' dalam prinsip UI,UX kita merujuk pada konsep...",
+                options: ["UI", "UX", "Web Development", "Backend", "Database"],
+                a: 1
+            },
+            {
+                q: "Apa fungsi utama dari 'Wireframe'?",
+                options: ["Menentukan warna akhir aplikasi", "Membuat kerangka struktur tata letak tanpa elemen visual detail", "Menulis kode JavaScript", "Menguji kecepatan internet", "Menghubungkan aplikasi ke database"],
+                a: 1
+            },
+            {
+                q: "Manakah tools desain berbasis cloud yang sering digunakan untuk kolaborasi UI/UX secara real-time?",
+                options: ["CorelDraw", "Adobe Photoshop", "Figma", "Microsoft Paint", "AutoCAD"],
+                a: 2
+            },
+            {
+                q: "Dalam Figma, shortcut 'F' digunakan untuk membuat...",
+                options: ["Font", "Fill", "Frame", "File", "Filter"],
+                a: 2
+            },
+            {
+                q: "Apa kegunaan Layout Grid (Columns) dalam desain UI?",
+                options: ["Memberi warna pada background", "Menghapus elemen yang tidak perlu", "Membantu menata letak elemen agar rapi dan sejajar", "Mempercepat proses loading", "Membuat animasi bergerak"],
+                a: 2
+            },
+            {
+                q: "Mengapa desain wireframe biasanya menggunakan warna hitam, putih, atau abu-abu?",
+                options: ["Karena tinta warna lebih mahal", "Agar desainer fokus pada struktur dan fungsi dibanding estetika", "Karena komputer hanya mengenal warna tersebut", "Agar aplikasi terlihat klasik", "Memang aturan wajib internasional"],
+                a: 1
+            },
+            {
+                q: "Apa yang dimaksud dengan 'Low Fidelity' dalam pembuatan desain?",
+                options: ["Desain dengan detail sangat tinggi", "Desain dengan kualitas suara rendah", "Desain kerangka kasar atau sederhana", "Desain yang siap dipasarkan", "Desain yang menggunakan banyak video"],
+                a: 2
+            },
+            {
+                q: "Bidang ilmu manakah yang mempelajari tentang bagaimana manusia berinteraksi dengan komputer (IMK)?",
+                options: ["Sosiologi", "Psikologi/HCI", "Geografi", "Ekonomi", "Sejarah"],
+                a: 1
+            },
+            {
+                q: "Tombol 'Beli Sekarang' yang sulit ditemukan pengguna adalah contoh dari...",
+                options: ["UI yang terlalu cerah", "UX yang buruk", "Database yang penuh", "Server yang lambat", "Layar yang pecah"],
+                a: 1
+            },
+            {
+                q: "Dalam mendesain login page, elemen apa yang biasanya wajib ada sebagai 'Input Field'?",
+                options: ["Tabel harga", "Video trailer", "Kolom Username dan Password", "Daftar menu restoran", "Peta lokasi"],
+                a: 2
+            },
+            {
+                q: "Manakah hirarki visual yang paling baik untuk menarik perhatian pada tombol utama?",
+                options: ["Warna yang sama dengan background", "Ukuran sangat kecil dan dipojokkan", "Warna kontras dan penempatan strategis", "Tanpa teks sama sekali", "Menggunakan font yang tidak terbaca"],
+                a: 2
+            },
+            {
+                q: "Apa langkah pertama yang sebaiknya dilakukan sebelum mulai mendesain UI secara detail?",
+                options: ["Membeli komputer baru", "Melakukan riset pengguna dan membuat wireframe", "Langsung memberi warna merah", "Mencetak desain di kertas foto", "Menjual aplikasi tersebut"],
+                a: 1
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let userAnswers = [];
+        let timerInterval;
+        let seconds = 0;
+
+        const loginForm = document.getElementById('login-form');
+        const loginSection = document.getElementById('login-section');
+        const quizSection = document.getElementById('quiz-section');
+        const resultSection = document.getElementById('result-section');
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('student-name').value;
+            loginSection.classList.add('hidden');
+            quizSection.classList.remove('hidden');
+            startTimer();
+            loadQuestion();
+        });
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                seconds++;
+                const mins = Math.floor(seconds / 60).toString().padStart(2, '0');
+                const secs = (seconds % 60).toString().padStart(2, '0');
+                document.getElementById('timer').innerText = `${mins}:${secs}`;
+            }, 1000);
+        }
+
+        function loadQuestion() {
+            const q = questions[currentQuestion];
+            document.getElementById('question-counter').innerText = `Soal ${currentQuestion + 1} / ${questions.length}`;
+            document.getElementById('question-text').innerText = q.q;
+            
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            
+            q.options.forEach((opt, index) => {
+                const button = document.createElement('button');
+                button.className = "option-card w-full text-left px-5 py-4 border-2 border-gray-100 rounded-xl hover:border-blue-500 hover:bg-blue-50 flex items-center space-x-4";
+                button.innerHTML = `
+                    <span class="flex-shrink-0 w-8 h-8 rounded-full bg-gray-100 text-gray-600 flex items-center justify-center font-bold text-sm border">
+                        ${String.fromCharCode(65 + index)}
+                    </span>
+                    <span class="text-gray-700">${opt}</span>
+                `;
+                button.onclick = () => selectOption(index);
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function selectOption(index) {
+            if (index === questions[currentQuestion].a) {
+                score++;
+            }
+            
+            currentQuestion++;
+            
+            if (currentQuestion < questions.length) {
+                loadQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            clearInterval(timerInterval);
+            quizSection.classList.add('hidden');
+            resultSection.classList.remove('hidden');
+            
+            const name = document.getElementById('student-name').value;
+            const finalScoreValue = Math.round((score / questions.length) * 100);
+            
+            document.getElementById('final-score').innerText = finalScoreValue;
+            document.getElementById('student-display-name').innerText = `Hebat, ${name}!`;
+            document.getElementById('correct-count').innerText = score;
+            document.getElementById('wrong-count').innerText = questions.length - score;
+            
+            if (finalScoreValue < 60) {
+                document.getElementById('result-message').innerText = "Terus belajar! UI/UX adalah dunia yang sangat menarik.";
+                document.getElementById('score-circle').classList.replace('border-blue-600', 'border-yellow-500');
+            } else {
+                document.getElementById('result-message').innerText = "Luar biasa! Kamu punya dasar pemahaman UI/UX yang baik.";
+            }
+        }
+    </script>
+</body>
+</html>
