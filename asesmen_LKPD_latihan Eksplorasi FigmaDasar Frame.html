@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asesmen Mandiri UI/UX & Figma - DKV XI RPL</title>
+    <!-- Tailwind CSS for modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; }
+        .gradient-bg { background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <!-- Login Section -->
+    <div id="login-section" class="w-full max-w-md bg-white rounded-2xl shadow-xl p-8">
+        <div class="text-center mb-8">
+            <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center mx-auto mb-4 text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+            </div>
+            <h1 class="text-2xl font-bold text-slate-800">Asesmen UI/UX Figma</h1>
+            <p class="text-slate-500">Materi: Dasar Layout & Pengenalan Figma</p>
+        </div>
+        <form id="login-form">
+            <div class="mb-4">
+                <label class="block text-sm font-semibold text-slate-700 mb-2">Nama Lengkap</label>
+                <input type="text" id="user-name" required class="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" placeholder="Masukkan nama Anda">
+            </div>
+            <div class="mb-6">
+                <label class="block text-sm font-semibold text-slate-700 mb-2">NIS (Nomor Induk Siswa)</label>
+                <input type="number" id="user-nis" required class="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" placeholder="Masukkan NIS">
+            </div>
+            <button type="submit" class="w-full gradient-bg text-white font-bold py-3 rounded-lg hover:opacity-90 transition transform hover:-translate-y-1">Mulai Ujian</button>
+        </form>
+    </div>
+
+    <!-- Quiz Section -->
+    <div id="quiz-section" class="hidden w-full max-w-3xl bg-white rounded-2xl shadow-xl overflow-hidden">
+        <div class="gradient-bg p-6 text-white flex justify-between items-center">
+            <div>
+                <h2 id="display-name" class="font-bold">Nama Siswa</h2>
+                <p id="display-nis" class="text-sm opacity-80 text-white">NIS: 12345</p>
+            </div>
+            <div class="text-right">
+                <span id="question-counter" class="text-sm font-semibold bg-white/20 px-3 py-1 rounded-full">Soal 1/15</span>
+            </div>
+        </div>
+        
+        <div class="p-8">
+            <div id="question-container">
+                <h3 id="question-text" class="text-xl font-bold text-slate-800 mb-6 leading-relaxed">Pertanyaan akan muncul di sini?</h3>
+                <div id="options-container" class="space-y-3">
+                    <!-- Opsi Jawaban akan di-render di sini -->
+                </div>
+            </div>
+
+            <div class="mt-10 flex justify-between">
+                <button id="prev-btn" class="px-6 py-2 border border-slate-200 text-slate-600 font-semibold rounded-lg hover:bg-slate-50 disabled:opacity-50">Kembali</button>
+                <button id="next-btn" class="px-6 py-2 gradient-bg text-white font-semibold rounded-lg hover:opacity-90">Selanjutnya</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Result Section -->
+    <div id="result-section" class="hidden w-full max-w-md bg-white rounded-2xl shadow-xl p-8 text-center">
+        <h2 class="text-3xl font-bold text-slate-800 mb-2">Hasil Ujian</h2>
+        <div id="score-circle" class="w-32 h-32 rounded-full border-8 border-blue-500 flex items-center justify-center mx-auto my-6">
+            <span id="final-score" class="text-3xl font-bold text-slate-800">0</span>
+        </div>
+        <div class="space-y-2 mb-8">
+            <p id="result-message" class="font-semibold text-slate-700"></p>
+            <p class="text-slate-500 italic">"Desain yang baik adalah desain yang fungsional."</p>
+        </div>
+        <button onclick="location.reload()" class="w-full py-3 border-2 border-blue-600 text-blue-600 font-bold rounded-lg hover:bg-blue-50 transition">Ulangi Tes</button>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                q: "Aspek UX (User Experience) berfokus pada...",
+                options: ["Warna dan Tipografi", "Perasaan dan kenyamanan pengguna", "Kecepatan server", "Kecanggihan database", "Resolusi monitor"],
+                a: 1
+            },
+            {
+                q: "Manakah dari prinsip UI berikut yang mengatur urutan kepentingan elemen visual?",
+                options: ["Contrast", "Alignment", "Balance", "Hierarchy", "Unity"],
+                a: 3
+            },
+            {
+                q: "Fungsi dari Panel Layers di sebelah kiri interface Figma adalah...",
+                options: ["Mengatur warna", "Melihat daftar objek dan grup", "Mengatur grid", "Ekspor file", "Menambah font baru"],
+                a: 1
+            },
+            {
+                q: "Shortkey (tombol pintas) untuk membuat Frame baru di Figma adalah...",
+                options: ["R", "T", "F", "V", "O"],
+                a: 2
+            },
+            {
+                q: "Berapa jumlah kolom standar industri yang sering digunakan dalam desain desktop?",
+                options: ["4", "6", "8", "12", "16"],
+                a: 3
+            },
+            {
+                q: "Apa fungsi pengaturan 'Big Nudge' ke angka 8 di Figma?",
+                options: ["Mempercepat ekspor gambar", "Menggeser elemen sejauh 8px saat menekan Shift+Arrow", "Mengubah resolusi layar", "Membuat font menjadi tebal otomatis", "Menambah jumlah baris grid"],
+                a: 1
+            },
+            {
+                q: "Dalam CSS (Tailwind), class 'grid-cols-12' digunakan untuk merepresentasikan...",
+                options: ["12 baris horizontal", "12 kolom vertikal", "12 piksel jarak antar elemen", "12 warna gradasi", "12 ukuran font berbeda"],
+                a: 1
+            },
+            {
+                q: "Jenis pewarnaan yang mencampurkan dua warna atau lebih secara transisi disebut...",
+                options: ["Solid", "Pattern", "Gradient", "Shadow", "Blur"],
+                a: 2
+            },
+            {
+                q: "Pengaturan 'Gutter' pada Layout Grid Figma berfungsi untuk...",
+                options: ["Mengatur lebar kolom", "Mengatur jarak antar kolom", "Mengatur tinggi frame", "Mengatur batas luar desain", "Mengatur transparansi grid"],
+                a: 1
+            },
+            {
+                q: "Fungsi dari 'Corner Radius' di Figma adalah untuk...",
+                options: ["Membuat objek menjadi bulat/tumpul", "Mengubah posisi objek", "Menambah bayangan", "Mengatur kemiringan teks", "Menghapus elemen desain"],
+                a: 0
+            },
+            {
+                q: "Bagian 'Hero Section' pada website biasanya terletak di...",
+                options: ["Bagian paling bawah (footer)", "Samping kiri (sidebar)", "Atas setelah header sebagai area utama", "Hanya di halaman kontak", "Pop-up iklan"],
+                a: 2
+            },
+            {
+                q: "Dalam sistem grid 8-pt, jarak atau ukuran elemen sebaiknya menggunakan...",
+                options: ["Angka ganjil", "Kelipatan angka 8", "Kelipatan angka 10", "Ukuran acak", "Persentase layar saja"],
+                a: 1
+            },
+            {
+                q: "Class Bootstrap '.bg-gradient' berfungsi untuk...",
+                options: ["Menghapus latar belakang", "Menambah efek gradasi halus", "Membuat teks menjadi tebal", "Mengubah ukuran tombol", "Menghubungkan ke file CSS"],
+                a: 1
+            },
+            {
+                q: "Pada prinsip UI 'Contrast', apa tujuan utama penggunaannya?",
+                options: ["Membuat semua elemen sama", "Menonjolkan elemen penting agar terlihat berbeda", "Mengurangi jumlah kolom", "Menghapus white space", "Merapikan posisi layer"],
+                a: 1
+            },
+            {
+                q: "Panel di sebelah kanan interface Figma yang mengatur warna, ukuran, dan perataan disebut...",
+                options: ["Assets Panel", "Pages Panel", "Toolbar", "Design Panel", "Community Panel"],
+                a: 3
+            }
+        ];
+
+        let currentQuestion = 0;
+        let userAnswers = new Array(questions.length).fill(null);
+        let userName = "";
+        let userNis = "";
+
+        const loginForm = document.getElementById('login-form');
+        const loginSection = document.getElementById('login-section');
+        const quizSection = document.getElementById('quiz-section');
+        const resultSection = document.getElementById('result-section');
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            userName = document.getElementById('user-name').value;
+            userNis = document.getElementById('user-nis').value;
+            
+            document.getElementById('display-name').textContent = userName;
+            document.getElementById('display-nis').textContent = `NIS: ${userNis}`;
+            
+            loginSection.classList.add('hidden');
+            quizSection.classList.remove('hidden');
+            renderQuestion();
+        });
+
+        function renderQuestion() {
+            const q = questions[currentQuestion];
+            document.getElementById('question-counter').textContent = `Soal ${currentQuestion + 1}/${questions.length}`;
+            document.getElementById('question-text').textContent = q.q;
+            
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = `w-full text-left p-4 border-2 rounded-xl transition flex items-center space-x-3 
+                    ${userAnswers[currentQuestion] === index 
+                        ? 'border-blue-500 bg-blue-50 text-blue-800 font-semibold' 
+                        : 'border-slate-100 hover:border-slate-200 text-slate-600'}`;
+                
+                btn.innerHTML = `
+                    <span class="w-8 h-8 rounded-full border flex items-center justify-center shrink-0 
+                        ${userAnswers[currentQuestion] === index ? 'bg-blue-500 text-white' : 'bg-slate-50'}">
+                        ${String.fromCharCode(65 + index)}
+                    </span>
+                    <span>${opt}</span>
+                `;
+                
+                btn.onclick = () => {
+                    userAnswers[currentQuestion] = index;
+                    renderQuestion();
+                };
+                optionsContainer.appendChild(btn);
+            });
+
+            document.getElementById('prev-btn').disabled = currentQuestion === 0;
+            document.getElementById('next-btn').textContent = currentQuestion === questions.length - 1 ? 'Selesai' : 'Selanjutnya';
+        }
+
+        document.getElementById('prev-btn').onclick = () => {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                renderQuestion();
+            }
+        };
+
+        document.getElementById('next-btn').onclick = () => {
+            if (userAnswers[currentQuestion] === null) {
+                alert('Silakan pilih salah satu jawaban terlebih dahulu.');
+                return;
+            }
+
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                renderQuestion();
+            } else {
+                showResult();
+            }
+        };
+
+        function showResult() {
+            let correct = 0;
+            userAnswers.forEach((ans, index) => {
+                if (ans === questions[index].a) correct++;
+            });
+
+            const score = Math.round((correct / questions.length) * 100);
+            document.getElementById('final-score').textContent = score;
+            
+            let message = "";
+            const color = score >= 75 ? "#22c55e" : "#ef4444";
+            document.getElementById('score-circle').style.borderColor = color;
+
+            if (score === 100) message = "Luar Biasa! Anda menguasai materi ini dengan sempurna.";
+            else if (score >= 75) message = "Bagus! Anda memahami dasar UI/UX dengan baik.";
+            else message = "Tetap semangat! Perbanyak latihan praktik di Figma.";
+
+            document.getElementById('result-message').textContent = message;
+            document.getElementById('result-message').style.color = color;
+            
+            quizSection.classList.add('hidden');
+            resultSection.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
