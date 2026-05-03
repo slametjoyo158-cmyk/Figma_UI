@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preview Visual PSAS UMKM - XI RPL</title>
+    <!-- Bootstrap 5 untuk Grid System -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #059669; /* Hijau UMKM */
+            --primary-hover: #047857;
+            --dark-bg: #111827;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --card-border: #e5e7eb;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f9fafb;
+            color: var(--text-main);
+            margin: 0;
+        }
+
+        /* 1. HEADER (80px Height sesuai Soal) */
+        header {
+            height: 80px;
+            background: white;
+            border-bottom: 1px solid var(--card-border);
+            display: flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-link {
+            font-weight: 600;
+            color: var(--text-main);
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+        }
+
+        /* 2. CARD PRODUCT (Spesifikasi 384x474 px) */
+        .card-umkm {
+            width: 100%;
+            max-width: 384px;
+            height: 474px;
+            background: white;
+            border-radius: 16px;
+            border: 1px solid var(--card-border);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin: 0 auto;
+        }
+
+        .card-umkm:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Image Area (220px Height sesuai Soal) */
+        .card-img-top {
+            height: 220px;
+            width: 100%;
+            object-fit: cover;
+            background-color: #f3f4f6;
+        }
+
+        /* Content Area (Inner Padding 24px) */
+        .card-body-custom {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .card-title-custom {
+            font-size: 22px;
+            font-weight: 700;
+            line-height: 1.2; /* 120% sesuai Soal */
+            margin-bottom: 12px;
+            color: #111827;
+        }
+
+        .card-text-custom {
+            font-size: 14px;
+            line-height: 1.5;
+            color: var(--text-muted);
+            margin-bottom: auto; /* Mendorong tombol ke bawah */
+        }
+
+        /* 3. COMPONENT: BUTTON (Pesan Sekarang) */
+        .btn-component {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 700;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            width: 100%; /* Fill Container */
+            display: inline-block;
+            border: none;
+        }
+
+        /* Hover Effect (Variants) */
+        .btn-component:hover {
+            background-color: var(--primary-hover);
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 4. FOOTER (Dark Contrast) */
+        footer {
+            background-color: var(--dark-bg);
+            color: #9ca3af;
+            padding: 80px 0 40px;
+            margin-top: 100px;
+        }
+
+        footer h5 {
+            color: white;
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+
+        footer ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        footer li {
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        /* Helper for Visualization Label */
+        .visual-label {
+            background: #ecfdf5;
+            color: var(--primary-color);
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER SECTION -->
+    <header>
+        <div class="container d-flex justify-content-between align-items-center">
+            <div class="fw-bold fs-4 text-success">Lokal<span class="text-dark">UMKM</span></div>
+            <div class="d-none d-md-flex gap-4">
+                <a href="#" class="nav-link">Beranda</a>
+                <a href="#" class="nav-link">Produk</a>
+                <a href="#" class="nav-link">Tentang</a>
+            </div>
+            <button class="btn btn-dark px-4 py-2">Masuk</button>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT SECTION -->
+    <main class="container py-5">
+        <div class="text-center mb-5">
+            <span class="visual-label">MOCKUP PSAS - XI RPL</span>
+            <h2 class="fw-bold mt-2">Produk Unggulan UMKM</h2>
+            <p class="text-muted">Contoh tata letak 12-Column Grid dengan 3 Card Produk</p>
+        </div>
+
+        <!-- Grid Container (Gap 24px sesuai Soal) -->
+        <div class="row g-4 justify-content-center">
+            
+            <!-- Card 1 -->
+            <div class="col-lg-4 col-md-6 d-flex justify-content-center">
+                <div class="card-umkm">
+                    <img src="https://images.unsplash.com/photo-1559181567-c3190ca9959b?auto=format&fit=crop&w=400&q=80" class="card-img-top" alt="Produk 1">
+                    <div class="card-body-custom">
+                        <h3 class="card-title-custom">Kripik Buah Premium</h3>
+                        <p class="card-text-custom">Camilan sehat dari buah asli tanpa pengawet. Diproses dengan teknik vacuum frying untuk menjaga nutrisi.</p>
+                        <!-- Button Component Instance -->
+                        <a href="#" class="btn-component">Pesan Sekarang</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="col-lg-4 col-md-6 d-flex justify-content-center">
+                <div class="card-umkm">
+                    <img src="https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=400&q=80" class="card-img-top" alt="Produk 2">
+                    <div class="card-body-custom">
+                        <h3 class="card-title-custom">Batik Tulis Kontemporer</h3>
+                        <p class="card-text-custom">Karya pengrajin lokal dengan motif modern yang elegan. Menggunakan bahan katun primisima berkualitas tinggi.</p>
+                        <!-- Button Component Instance -->
+                        <a href="#" class="btn-component">Pesan Sekarang</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="col-lg-4 col-md-6 d-flex justify-content-center">
+                <div class="card-umkm">
+                    <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=400&q=80" class="card-img-top" alt="Produk 3">
+                    <div class="card-body-custom">
+                        <h3 class="card-title-custom">Kopi Arabika Gayo</h3>
+                        <p class="card-text-custom">Biji kopi pilihan dengan profil rasa fruity dan tingkat keasaman yang pas. Cocok untuk pecinta kopi sejati.</p>
+                        <!-- Button Component Instance -->
+                        <a href="#" class="btn-component">Pesan Sekarang</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- FOOTER SECTION -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h5>LokalUMKM</h5>
+                    <p>Platform digital untuk mendukung kemajuan usaha mikro, kecil, dan menengah di seluruh pelosok Indonesia melalui desain UI/UX yang profesional.</p>
+                </div>
+                <div class="col-lg-2 offset-lg-1 col-md-4 mb-4">
+                    <h5>Navigasi</h5>
+                    <ul>
+                        <li>Beranda</li>
+                        <li>Katalog Produk</li>
+                        <li>Tentang Kami</li>
+                        <li>Hubungi Kami</li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-4">
+                    <h5>Bantuan</h5>
+                    <ul>
+                        <li>Syarat & Ketentuan</li>
+                        <li>Kebijakan Privasi</li>
+                        <li>Panduan Belanja</li>
+                        <li>FAQ</li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-4 mb-4">
+                    <h5>Hubungi Kami</h5>
+                    <ul>
+                        <li>Jl. Merdeka No. 123, Jakarta</li>
+                        <li>support@lokalumkm.id</li>
+                        <li>+62 812 3456 7890</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="text-center mt-5 pt-4 border-top border-secondary">
+                <p>&copy; 2026 Projek PSAS - ANDY FEBRIANSYAH - XI RPL. Disusun untuk Kompetensi Keahlian DKV.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
