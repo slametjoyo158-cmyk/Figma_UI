@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asesmen DKV - Prinsip Desain Komunikasi Visual</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#0284c7',
+                            600: '#0369a1',
+                            700: '#075985',
+                            900: '#0c4a6e',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .custom-checkbox input:checked + label {
+            border-color: #0284c7;
+            background-color: #f0f9ff;
+        }
+        .custom-checkbox input:checked + label .checkbox-icon {
+            background-color: #0284c7;
+            border-color: #0284c7;
+            color: white;
+        }
+        .smooth-transition {
+            transition: all 0.25s ease-in-out;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="text-slate-800 min-h-screen flex flex-col justify-between selection:bg-brand-500 selection:text-white">
+
+    <!-- Header Navbar -->
+    <header class="bg-slate-900 text-white shadow-md border-b border-slate-800 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-brand-500 text-white w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xl shadow-lg shadow-brand-500/30">
+                    <i class="fa-solid font-bold fa-palette"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-base sm:text-lg leading-tight">SMK BHAKTI PERSADA PATEBON</h1>
+                    <p class="text-xs text-slate-400">Asesmen DKV: Prinsip-Prinsip Desain Komunikasi Visual</p>
+                </div>
+            </div>
+            <div id="user-info-bar" class="hidden flex items-center space-x-4 bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700">
+                <div class="text-right">
+                    <p id="nav-user-name" class="text-xs sm:text-sm font-semibold text-slate-200">Siswa</p>
+                    <p id="nav-user-nis" class="text-[10px] sm:text-xs text-brand-400 font-mono">NIS: -</p>
+                </div>
+                <div class="w-8 h-8 bg-brand-600 rounded-full flex items-center justify-center text-xs font-bold uppercase">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-grow flex items-center justify-center p-4 sm:p-6 lg:p-8">
+        
+        <!-- 1. LOGIN SCREEN -->
+        <section id="login-screen" class="w-full max-w-md bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden smooth-transition my-auto">
+            <div class="bg-gradient-to-br from-slate-900 via-slate-800 to-brand-900 p-8 text-center text-white relative">
+                <div class="inline-flex p-3 bg-white/10 backdrop-blur-md rounded-2xl mb-3 text-brand-400 border border-white/10">
+                    <i class="fa-solid fa-pen-ruler text-3xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold tracking-tight">Portal Ujian DKV</h2>
+                <p class="text-slate-300 text-xs mt-1">Siswa Kelas XI DKV - Uji Pemahaman Prinsip Desain</p>
+                <div class="mt-3 inline-block bg-brand-500/20 text-brand-300 text-[11px] px-3 py-1 rounded-full border border-brand-400/30">
+                    Materi: Ritme, Balance, & Unity
+                </div>
+            </div>
+
+            <form id="login-form" class="p-6 sm:p-8 space-y-5">
+                <!-- Notification Banner inside login -->
+                <div id="login-alert" class="hidden p-3 bg-rose-50 border border-rose-200 text-rose-700 text-xs rounded-xl flex items-center space-x-2">
+                    <i class="fa-solid fa-circle-exclamation text-base flex-shrink-0"></i>
+                    <span id="login-alert-msg">Password default salah! Gunakan password: dkv11</span>
+                </div>
+
+                <div>
+                    <label for="nis" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">
+                        Nomor Induk Siswa (NIS) / Nama
+                    </label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+                            <i class="fa-solid fa-id-card"></i>
+                        </span>
+                        <input type="text" id="nis" required placeholder="Masukkan NIS atau Nama Siswa..." 
+                            class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:bg-white focus:outline-none text-sm transition-all">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="password" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">
+                        Password Akses (Default: dkv11)
+                    </label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+                            <i class="fa-solid fa-lock"></i>
+                        </span>
+                        <input type="password" id="password" required placeholder="••••••••" 
+                            class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:bg-white focus:outline-none text-sm transition-all">
+                    </div>
+                </div>
+
+                <div class="pt-2">
+                    <button type="submit" 
+                        class="w-full bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3.5 px-4 rounded-xl shadow-lg shadow-brand-600/30 transition-all duration-200 flex items-center justify-center space-x-2 group text-sm">
+                        <span>Mulai Asesmen</span>
+                        <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+                </div>
+
+                <div class="text-center pt-2 border-t border-slate-100">
+                    <p class="text-[11px] text-slate-400">
+                        <i class="fa-solid fa-info-circle mr-1"></i> Mode Soal: Pilihan Ganda Kompleks (Jawaban benar > 1)
+                    </p>
+                </div>
+            </form>
+        </section>
+
+        <!-- 2. QUIZ ASSESSMENT SCREEN -->
+        <section id="quiz-screen" class="hidden w-full max-w-6xl space-y-6">
+            
+            <!-- Top Control Bar -->
+            <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-sm border border-slate-200/80 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 rounded-xl bg-brand-50 text-brand-600 flex items-center justify-center text-xl font-bold border border-brand-100">
+                        <span id="current-q-num">1</span>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-800 text-sm sm:text-base">Soal Asesmen DKV</h3>
+                        <p class="text-xs text-slate-500">Pilihlah <span class="text-brand-600 font-semibold">SEMUA</span> jawaban yang benar (Pilihan Ganda Kompleks)</p>
+                    </div>
+                </div>
+
+                <!-- Timer & Navigation Trigger -->
+                <div class="flex items-center space-x-3 justify-between md:justify-end">
+                    <div class="flex items-center space-x-2 bg-slate-100 px-3.5 py-2 rounded-xl border border-slate-200 text-slate-700 text-xs sm:text-sm font-medium">
+                        <i class="fa-regular fa-clock text-brand-600"></i>
+                        <span>Waktu:</span>
+                        <span id="timer-display" class="font-mono font-bold text-slate-900">45:00</span>
+                    </div>
+
+                    <button id="toggle-map-btn" onclick="toggleQuestionMap()" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs sm:text-sm font-medium transition-colors flex items-center space-x-2">
+                        <i class="fa-solid fa-th-large"></i>
+                        <span class="hidden sm:inline">Peta Soal</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Main Layout: Question Box + Optional Drawer/Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
+                
+                <!-- Question Column (3 cols) -->
+                <div class="lg:col-span-3 space-y-6">
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 sm:p-8 relative">
+                        <!-- Progress Bar -->
+                        <div class="w-full bg-slate-100 h-2 rounded-full mb-6 overflow-hidden">
+                            <div id="progress-bar-fill" class="bg-brand-500 h-full w-[5%] transition-all duration-300"></div>
+                        </div>
+
+                        <!-- Badge Mode -->
+                        <div class="mb-4 inline-flex items-center space-x-1.5 bg-amber-50 text-amber-700 border border-amber-200 text-xs font-medium px-2.5 py-1 rounded-lg">
+                            <i class="fa-solid fa-layer-group text-amber-500"></i>
+                            <span>Pilihan Ganda Kompleks (Jawaban Benar > 1)</span>
+                        </div>
+
+                        <!-- Question Text -->
+                        <div id="question-text" class="text-slate-800 font-semibold text-base sm:text-lg leading-relaxed mb-6">
+                            Loading pertanyaan...
+                        </div>
+
+                        <!-- Answer Options Container (6 options) -->
+                        <div id="options-container" class="space-y-3">
+                            <!-- Options injected dynamically -->
+                        </div>
+
+                        <!-- Footer Controls -->
+                        <div class="mt-8 pt-6 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
+                            <button id="prev-btn" onclick="navigateQuestion(-1)" class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-xl text-sm transition-colors flex items-center space-x-2 disabled:opacity-40 disabled:cursor-not-allowed">
+                                <i class="fa-solid fa-chevron-left text-xs"></i>
+                                <span>Sebelumnya</span>
+                            </button>
+
+                            <div class="flex items-center space-x-2">
+                                <button id="flag-btn" onclick="toggleFlagCurrentQuestion()" class="px-4 py-2.5 bg-amber-50 hover:bg-amber-100 text-amber-700 font-medium rounded-xl text-sm transition-colors border border-amber-200 flex items-center space-x-2">
+                                    <i class="fa-regular fa-bookmark"></i>
+                                    <span class="hidden sm:inline">Ragu-ragu</span>
+                                </button>
+                                
+                                <button id="next-btn" onclick="navigateQuestion(1)" class="px-6 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-medium rounded-xl text-sm transition-colors shadow-sm flex items-center space-x-2">
+                                    <span>Berikutnya</span>
+                                    <i class="fa-solid fa-chevron-right text-xs"></i>
+                                </button>
+
+                                <button id="finish-btn" onclick="confirmFinishQuiz()" class="hidden px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-xl text-sm transition-colors shadow-lg shadow-emerald-600/30 flex items-center space-x-2">
+                                    <i class="fa-solid fa-paper-plane"></i>
+                                    <span>Selesaikan Ujian</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Side Question Map Grid (1 col) -->
+                <div id="question-map-panel" class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-5 space-y-4">
+                    <div class="flex items-center justify-between pb-3 border-t-0 border-b border-slate-100">
+                        <h4 class="font-bold text-slate-800 text-sm">Navigasi Soal</h4>
+                        <span class="text-xs text-slate-400"><span id="answered-count">0</span>/20 Terjawab</span>
+                    </div>
+                    
+                    <div id="question-grid" class="grid grid-cols-5 gap-2">
+                        <!-- 1-20 question buttons generated by JS -->
+                    </div>
+
+                    <div class="pt-3 border-t border-slate-100 text-xs space-y-2 text-slate-500">
+                        <div class="flex items-center space-x-2">
+                            <span class="w-3 h-3 bg-brand-600 rounded-sm inline-block"></span>
+                            <span>Sudah Terjawab</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="w-3 h-3 bg-amber-400 rounded-sm inline-block"></span>
+                            <span>Ragu-ragu</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="w-3 h-3 bg-slate-100 border border-slate-300 rounded-sm inline-block"></span>
+                            <span>Belum Diisi</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 3. RESULT & GRADE SCREEN -->
+        <section id="result-screen" class="hidden w-full max-w-4xl space-y-6 my-auto">
+            
+            <!-- Result Summary Card -->
+            <div class="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden text-center">
+                <div id="grade-banner" class="p-8 text-white relative bg-slate-900 transition-colors duration-500">
+                    <p class="text-xs uppercase tracking-widest text-slate-300 font-semibold mb-1">Hasil Asesmen DKV</p>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold mb-4" id="res-student-name">Nama Siswa</h2>
+                    
+                    <!-- Circular / Big Score Display -->
+                    <div class="inline-flex flex-col items-center justify-center w-36 h-36 rounded-full bg-white/10 backdrop-blur-md border-4 border-white/20 shadow-inner my-2">
+                        <span id="final-score" class="text-4xl sm:text-5xl font-black text-white">0</span>
+                        <span class="text-[10px] text-slate-200 uppercase font-semibold">Skor / 100</span>
+                    </div>
+
+                    <!-- Grade Badge -->
+                    <div class="mt-4">
+                        <span id="grade-badge" class="inline-block px-6 py-2 rounded-full font-bold text-base shadow-lg transition-transform transform scale-105">
+                            Grade: -
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Detail Metadata Stats -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 divide-x divide-y sm:divide-y-0 divide-slate-100 border-b border-slate-100 bg-slate-50/50">
+                    <div class="p-4">
+                        <p class="text-xs text-slate-400 font-medium">Benar Sempurna</p>
+                        <p id="stat-correct" class="text-xl font-bold text-emerald-600">0</p>
+                    </div>
+                    <div class="p-4">
+                        <p class="text-xs text-slate-400 font-medium">Kurang Tepat/Salah</p>
+                        <p id="stat-wrong" class="text-xl font-bold text-rose-600">0</p>
+                    </div>
+                    <div class="p-4">
+                        <p class="text-xs text-slate-400 font-medium">Waktu Tempuh</p>
+                        <p id="stat-time" class="text-xl font-bold text-slate-700">00:00</p>
+                    </div>
+                    <div class="p-4">
+                        <p class="text-xs text-slate-400 font-medium">Status KKM (85)</p>
+                        <p id="stat-status" class="text-xl font-bold text-brand-600">LULUS</p>
+                    </div>
+                </div>
+
+                <!-- Explanation Banner -->
+                <div class="p-6 bg-slate-50 border-b border-slate-100 text-left text-xs sm:text-sm text-slate-600 space-y-2">
+                    <h4 class="font-bold text-slate-800 text-sm flex items-center">
+                        <i class="fa-solid fa-award text-brand-500 mr-2"></i> Kategori Nilai Predikat:
+                    </h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1 text-xs">
+                        <div class="p-2.5 rounded-xl border border-slate-200 bg-white">
+                            <span class="font-bold text-slate-700">&lt; 85 :</span> <span class="text-amber-600 font-semibold">CUKUP</span>
+                        </div>
+                        <div class="p-2.5 rounded-xl border border-slate-200 bg-white">
+                            <span class="font-bold text-slate-700">85 - 92 :</span> <span class="text-indigo-600 font-semibold">BAIK</span>
+                        </div>
+                        <div class="p-2.5 rounded-xl border border-slate-200 bg-white">
+                            <span class="font-bold text-slate-700">&ge; 93 :</span> <span class="text-emerald-600 font-semibold">LUAR BIASA</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="p-6 flex flex-wrap items-center justify-center gap-4">
+                    <button onclick="toggleReviewSection()" class="px-6 py-3 bg-slate-800 hover:bg-slate-900 text-white text-sm font-semibold rounded-xl transition-all shadow-md flex items-center space-x-2">
+                        <i class="fa-solid fa-list-check"></i>
+                        <span id="review-btn-text">Lihat Pembahasan Soal</span>
+                    </button>
+                    <button onclick="restartQuiz()" class="px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold rounded-xl transition-all shadow-md flex items-center space-x-2">
+                        <i class="fa-solid fa-arrow-rotate-right"></i>
+                        <span>Ulangi Asesmen</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Review Section (Hidden by Default) -->
+            <div id="review-section" class="hidden space-y-4">
+                <h3 class="text-lg font-bold text-slate-800 flex items-center space-x-2">
+                    <i class="fa-solid fa-magnifying-glass font-bold text-brand-500"></i>
+                    <span>Detail Pembahasan & Kunci Jawaban</span>
+                </h3>
+
+                <div id="review-container" class="space-y-4">
+                    <!-- Injected dynamically -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500">
+        <p>© 2026 SMK Bhakti Persada Patebon — Pengajar: Slamet Joyo M, S.T., Gr. | DKV Class</p>
+    </footer>
+
+    <script>
+        // -------------------------------------------------------------
+        // QUESTION BANK: 20 COMPLEX MULTIPLE CHOICE QUESTIONS (6 OPTIONS)
+        // Material derived from Ritme, Balance, & Unity posters
+        // -------------------------------------------------------------
+        const questionBank = [
+            {
+                id: 1,
+                topic: "Ritme",
+                question: "Berdasarkan materi Ritme (Rhythm), manakah di antara fungsi ritme visual dalam karya Desain Komunikasi Visual berikut yang BENAR?",
+                options: [
+                    "A. Mengarahkan pandangan audiens secara alami",
+                    "B. Menciptakan kesan gerak, dinamis, dan menarik",
+                    "C. Mengeliminasi seluruh penggunaan bentuk geometris",
+                    "D. Memberi keteraturan dan harmoni pada desain",
+                    "E. Menekankan informasi penting secara tidak langsung",
+                    "F. Menghilangkan variasi ukuran dan warna agar monoton"
+                ],
+                correct: [0, 1, 3, 4], // A, B, D, E
+                explanation: "Fungsi Ritme meliputi: 1) Mengarahkan pandangan audiens, 2) Kesan gerak & dinamis, 3) Keteraturan dan harmoni, serta 4) Menekankan informasi penting secara tidak langsung."
+            },
+            {
+                id: 2,
+                topic: "Ritme",
+                question: "Pilihan mana saja yang merupakan cara untuk menciptakan ritme dalam suatu komposisi visual?",
+                options: [
+                    "A. Pengulangan (Repetisi) elemen visual seperti bentuk, garis, atau warna",
+                    "B. Variasi pada ukuran, warna, bentuk, atau jarak agar tidak monoton",
+                    "C. Menghapus ruang kosong (white space) sepenuhnya dari layout",
+                    "D. Progresi dengan mengatur perubahan bertahap pada ukuran/posisi",
+                    "E. Alternasi dengan mengatur dua atau lebih elemen secara berselang-seling",
+                    "F. Transisi dengan menciptakan alur gerak yang halus antar elemen"
+                ],
+                correct: [0, 1, 3, 4, 5], // A, B, D, E, F
+                explanation: "5 Cara menciptakan ritme adalah Repetisi, Variasi, Progresi, Alternasi, dan Transisi."
+            },
+            {
+                id: 3,
+                topic: "Ritme",
+                question: "Manakah opsi berikut yang merupakan JENIS-JENIS RITME yang valid sesuai dengan poster panduan?",
+                options: [
+                    "A. Ritme Teratur (Regular)",
+                    "B. Ritme Bervariasi (Alternating)",
+                    "C. Ritme Progresif (Progressive)",
+                    "D. Ritme Radial (Memusat)",
+                    "E. Ritme Bebas (Free Flow)",
+                    "F. Ritme Asimetris Monoton"
+                ],
+                correct: [0, 1, 2, 3, 4], // A, B, C, D, E
+                explanation: "5 Jenis Ritme visual: Teratur (Regular), Bervariasi (Alternating), Progresif (Progressive), Radial (Memusat), dan Bebas (Free Flow)."
+            },
+            {
+                id: 4,
+                topic: "Ritme",
+                question: "Pilihlah contoh penerapan visual yang TEPAT berdasarkan jenis ritmenya!",
+                options: [
+                    "A. Pagar gedung dan strip garis: Ritme Teratur (Regular)",
+                    "B. Motif batik dan layout majalah: Ritme Bervariasi",
+                    "C. Grafik pertumbuhan dan tangga: Ritme Progresif",
+                    "D. Roset jendela masjid dan kembang api: Ritme Radial",
+                    "E. Desain grunge dan gelombang bebas: Ritme Bebas",
+                    "F. Roset jendela masjid: Ritme Teratur Garis Lurus"
+                ],
+                correct: [0, 1, 2, 3, 4], // A, B, C, D, E
+                explanation: "Opsi A, B, C, D, dan E mencantumkan contoh penerapan nyata yang tepat sesuai dengan jenis ritme visual di materi."
+            },
+            {
+                id: 5,
+                topic: "Ritme",
+                question: "Dalam tips menerapkan ritme pada desain poster, manakah poin-poin saran desainer yang BENAR?",
+                options: [
+                    "A. Tentukan elemen utama yang ingin ditonjolkan",
+                    "B. Gunakan pengulangan dan variasi secara seimbang",
+                    "C. Hindari pengulangan yang terlalu monoton",
+                    "D. Pastikan ritme mendukung pesan yang ingin disampaikan",
+                    "E. Perhatikan jarak dan ruang agar ritme 'bernapas'",
+                    "F. Buat seluruh elemen memiliki ukuran yang persis sama tanpa kontras"
+                ],
+                correct: [0, 1, 2, 3, 4], // A, B, C, D, E
+                explanation: "Tips desainer untuk ritme: tentukan elemen utama, seimbangkan pengulangan & variasi, hindari monoton, dukung pesan utama, serta perhatikan jeda/ruang bernapas."
+            },
+            {
+                id: 6,
+                topic: "Balance",
+                question: "Apa pengertian dan tujuan utama dari prinsip Balance (Keseimbangan) dalam desain?",
+                options: [
+                    "A. Menciptakan keseimbangan distribusi bobot visual dalam komposisi",
+                    "B. Membuat desain terlihat stabil, harmonis, dan nyaman dipandang",
+                    "C. Mengatur warna agar selalu menggunakan 10 jenis warna neon",
+                    "D. Membantu pesan lebih mudah dipahami dan diingat oleh audiens",
+                    "E. Memastikan tidak ada bagian yang terasa berat sebelah tanpa alasan desain",
+                    "F. Memaksa seluruh teks diletakkan di tengah (center text)"
+                ],
+                correct: [0, 1, 3, 4], // A, B, D, E
+                explanation: "Balance bertujuan mendistribusikan bobot visual agar karya terasa stabil, harmonis, nyaman dilihat, dan memudahkan penyampaian pesan."
+            },
+            {
+                id: 7,
+                topic: "Balance",
+                question: "Manakah di antara pilihan berikut yang merupakan JENIS KESEIMBANGAN (Balance)?",
+                options: [
+                    "A. Balance Simetris (Symmetrical)",
+                    "B. Balance Asimetris (Asymmetrical)",
+                    "C. Balance Radial",
+                    "D. Balance Crystal / Mosaic",
+                    "E. Balance Linier Monokrom",
+                    "F. Balance Progresif Geometris"
+                ],
+                correct: [0, 1, 2, 3], // A, B, C, D
+                explanation: "4 Jenis Balance dalam materi: Simetris, Asimetris, Radial, dan Crystal/Mosaic."
+            },
+            {
+                id: 8,
+                topic: "Balance",
+                question: "Pernyataan mana saja yang tepat mengenai Keseimbangan Simetris (Balance Simetris)?",
+                options: [
+                    "A. Elemen di sisi kiri dan kanan memiliki bobot visual yang sama",
+                    "B. Tercipta kesan stabil, formal, tenang, dan teratur",
+                    "C. Cocok untuk desain poster promo yang sangat dinamis dan eksplosif",
+                    "D. Cocok untuk desain yang ingin menampilkan kesan resmi dan dapat dipercaya",
+                    "E. Elemen di kiri dan kanan tidak sama tetapi seimbang",
+                    "F. Letak teks, ikon, dan objek ditempatkan seimbang pada dua sisi garis tengah"
+                ],
+                correct: [0, 1, 3, 5], // A, B, D, F
+                explanation: "Balance Simetris memiliki bobot kiri-kanan sama/cermin, memberikan kesan formal, stabil, teratur, tenang, dan dapat dipercaya."
+            },
+            {
+                id: 9,
+                topic: "Balance",
+                question: "Pernyataan mana saja yang tepat mengenai Keseimbangan Asimetris (Balance Asimetris)?",
+                options: [
+                    "A. Elemen di kiri dan kanan berbeda bobot visualnya namun tetap seimbang",
+                    "B. Memberikan kesan dinamis, modern, dan menarik perhatian",
+                    "C. Memiliki susunan persis cermin antara kiri dan kanan",
+                    "D. Objek utama lebih besar di satu sisi diimbangi teks/informasi di sisi lain",
+                    "E. Contoh penerapannya adalah poster promo diskon kopi dengan foto cangkir di kanan",
+                    "F. Mengelilingi satu titik pusat lingkaran"
+                ],
+                correct: [0, 1, 3, 4], // A, B, D, E
+                explanation: "Balance Asimetris menggunakan elemen yang tidak identik tapi seimbang secara visual, menghasilkan kesan modern dan dinamis."
+            },
+            {
+                id: 10,
+                topic: "Balance",
+                question: "Di bawah ini yang merupakan Aturan dalam Membuat Balance dalam Desain adalah...",
+                options: [
+                    "A. Tentukan titik fokus sebagai pusat perhatian",
+                    "B. Seimbangkan bobot visual (warna cerah/ukuran besar punya bobot lebih)",
+                    "C. Atur penempatan elemen secara proporsional",
+                    "D. Gunakan White Space agar desain tidak terlihat penuh",
+                    "E. Terapkan Grid atau Alignment agar posisi rapi",
+                    "F. Tumpuk semua elemen penting pada satu sudut saja"
+                ],
+                correct: [0, 1, 2, 3, 4], // A, B, C, D, E
+                explanation: "Aturan balance meliputi: Tentukan titik fokus, seimbangkan bobot visual, atur penempatan elemen, gunakan white space, dan terapkan grid/alignment."
+            },
+            {
+                id: 11,
+                topic: "Balance",
+                question: "Mengapa keberadaan White Space (Ruang Kosong) sangat penting untuk mencapai balance dalam desain?",
+                options: [
+                    "A. Sisakan ruang di antara elemen agar desain tidak terlihat penuh/sesak",
+                    "B. White space membantu menciptakan keseimbangan visual",
+                    "C. Memudahkan audiens dalam membaca dan mencerna informasi",
+                    "D. Agar desainer hemat waktu tidak perlu membuat ilustrasi lagi",
+                    "E. Memberi 'ruang bernapas' bagi mata pembaca",
+                    "F. White space wajib diisi gambar kecil agar tidak kosong"
+                ],
+                correct: [0, 1, 2, 4], // A, B, C, E
+                explanation: "White space berfungsi agar desain tidak terlalu padat, memberikan ruang bernapas, menciptakan keseimbangan, dan mempermudah keterbacaan."
+            },
+            {
+                id: 12,
+                topic: "Balance",
+                question: "Manakah tips teknis desainer yang disarankan untuk menjaga keseimbangan (balance)?",
+                options: [
+                    "A. Gunakan maksimal 2-3 jenis font saja",
+                    "B. Konsisten dalam penggunaan warna",
+                    "C. Jangan memenuhi semua ruang dengan objek",
+                    "D. Pastikan elemen utama langsung menarik perhatian",
+                    "E. Periksa keseimbangan dari berbagai sudut pandang sebelum dipublikasikan",
+                    "F. Gunakan minimal 10 kombinasi warna cerah yang berbeda"
+                ],
+                correct: [0, 1, 2, 3, 4], // A, B, C, D, E
+                explanation: "Tips desainer balance: 2-3 font max, konsistensi warna, hindari menjejali ruang, elemen utama memikat, & evaluasi sudut pandang."
+            },
+            {
+                id: 13,
+                topic: "Unity",
+                question: "Apa definisi dan konsep utama dari prinsip Unity (Kesatuan) dalam DKV?",
+                options: [
+                    "A. Menyajikan seluruh elemen (warna, font, bentuk, gambar, tata letak) secara selaras",
+                    "B. Elemen-elemen bekerja bersama untuk menyampaikan pesan secara jelas",
+                    "C. Membuat tampilan terlihat rapi, profesional, dan mudah dipahami",
+                    "D. Membuat setiap halaman menggunakan tema dan font yang berbeda total",
+                    "E. Menyatukan berbagai bagian desain agar terasa sebagai satu kesatuan utuh",
+                    "F. Memisahkan visual agar audiens bingung mencari konteks"
+                ],
+                correct: [0, 1, 2, 4], // A, B, C, E
+                explanation: "Unity adalah prinsip yang menyatukan seluruh elemen desain agar selaras, terhubung, dan bekerja sama menyampaikan pesan yang utuh."
+            },
+            {
+                id: 14,
+                topic: "Unity",
+                question: "Manakah yang merupakan MANFAAT dari penerapan Unity dalam desain?",
+                options: [
+                    "A. Pesan menjadi lebih jelas dan mudah dipahami",
+                    "B. Desain terlihat lebih menarik dan profesional",
+                    "C. Memberikan kesan teratur dan nyaman dilihat",
+                    "D. Meningkatkan efektivitas komunikasi visual",
+                    "E. Menyebabkan audiens salah fokus ke elemen acak",
+                    "F. Membuat ukuran file gambar bertambah 10 kali lipat"
+                ],
+                correct: [0, 1, 2, 3], // A, B, C, D
+                explanation: "Manfaat Unity: Pesan lebih jelas, desain profesional & menarik, teratur & nyaman dipandang, serta komunikasi visual lebih efektif."
+            },
+            {
+                id: 15,
+                topic: "Unity",
+                question: "Pilihan manakah yang merupakan CARA / METODE untuk menciptakan Unity dalam desain?",
+                options: [
+                    "A. Kesamaan (Similarity) pada warna, bentuk, atau tekstur",
+                    "B. Kedekatan (Proximity) dengan meletakkan elemen berkaitan secara berdekatan",
+                    "C. Kontinuitas (Continuity) yang mengarahkan pandangan mengikuti alur visual",
+                    "D. Kesinambungan Gaya (Continuity of Style) menggunakan gaya visual konsisten",
+                    "E. Hierarki Visual dengan mengatur elemen berdasarkan tingkat kepentingan",
+                    "F. Pengacakan posisi elemen secara acak tanpa susunan"
+                ],
+                correct: [0, 1, 2, 3, 4], // A, B, C, D, E
+                explanation: "5 Cara menciptakan Unity: Similarity, Proximity, Continuity, Continuity of Style, dan Hierarki Visual."
+            },
+            {
+                id: 16,
+                topic: "Unity",
+                question: "Berdasarkan contoh penerapan pada poster, pada media apa saja Unity sering diterapkan secara nyata?",
+                options: [
+                    "A. Poster Event (warna, font, elemen grafis konsisten)",
+                    "B. Desain Feed Instagram (grid warna & gaya visual selaras)",
+                    "C. Layout Website (warna, ikon, & tata letak konsisten)",
+                    "D. Kemasan Produk (tipografi, warna, ilustrasi yang membentuk identitas)",
+                    "E. Banner Promosi (elemen selaras menyampaikan pesan promo)",
+                    "F. Surat Perjanjian Hitam Putih Tanpa Ilustrasi"
+                ],
+                correct: [0, 1, 2, 3, 4], // A, B, C, D, E
+                explanation: "Penerapan Unity ditampilkan pada poster event, feed Instagram, desain website, kemasan produk, dan banner promosi."
+            },
+            {
+                id: 17,
+                topic: "Unity",
+                question: "Manakah TIPS yang tepat untuk mempertahankan Unity dalam proyek DKV?",
+                options: [
+                    "A. Pilih palet warna yang konsisten (2–4 warna utama)",
+                    "B. Gunakan maksimal 2–3 jenis font",
+                    "C. Gunakan grid atau alignment agar rapi",
+                    "D. Gunakan gaya ilustrasi / ikon yang seragam",
+                    "E. Pastikan setiap elemen mendukung pesan utama",
+                    "F. Gunakan 8 gaya ilustrasi yang berbeda dalam 1 poster"
+                ],
+                correct: [0, 1, 2, 3, 4], // A, B, C, D, E
+                explanation: "Tips Unity: Palet warna 2-4, max 2-3 font, pakai grid, gaya ikon seragam, dan tiap elemen wajib mendukung pesan utama."
+            },
+            {
+                id: 18,
+                topic: "Unity",
+                question: "Apa saja kriteria desain TANPA Unity (desain yang buruk dalam hal kesatuan)?",
+                options: [
+                    "A. Elemen tidak selaras satu sama lain",
+                    "B. Penggunaan warna dan font yang berbeda-beda tanpa aturan",
+                    "C. Pesan sulit dipahami oleh audiens",
+                    "D. Tampilan terlihat berantakan dan tidak profesional",
+                    "E. Memiliki hirarki visual yang jelas dan terstruktur",
+                    "F. Elemen-elemen visual saling terhubung secara harmonis"
+                ],
+                correct: [0, 1, 2, 3], // A, B, C, D
+                explanation: "Desain TANPA Unity ditandai elemen tidak selaras, warna/font terlalu acak, pesan membingungkan, dan kesan berantakan."
+            },
+            {
+                id: 19,
+                topic: "Integrasi DKV",
+                question: "Manakah pasangan karakteristik dan jenis balance/ritme yang SESUAI berikut ini?",
+                options: [
+                    "A. Balance Radial: Elemen tersusun mengelilingi satu titik pusat secara merata",
+                    "B. Ritme Progresif: Perubahan bertahap yang menciptakan kesan gerak maju",
+                    "C. Balance Crystal: Elemen disusun berdasarkan berat visual, fokus satu titik utama",
+                    "D. Ritme Alternasi: Mengatur dua atau lebih elemen secara berselang-seling",
+                    "E. Balance Simetris: Bobot visual di kiri dan kanan berbeda jauh",
+                    "F. Ritme Bebas: Pengulangan kaku dan tidak boleh melengkung"
+                ],
+                correct: [0, 1, 2, 3], // A, B, C, D
+                explanation: "Opsi A, B, C, dan D mendeskripsikan secara akurat istilah-istilah jenis Balance dan Ritme dari materi."
+            },
+            {
+                id: 20,
+                topic: "Kesimpulan DKV",
+                question: "Pilihlah KESIMPULAN yang tepat dari ketiga prinsip desain (Ritme, Balance, Unity)!",
+                options: [
+                    "A. Ritme membuat desain hidup dan mengarahkan pandangan audiens",
+                    "B. Balance membuat desain seimbang, harmonis, dan nyaman dipandang",
+                    "C. Unity menyatukan semua elemen menjadi pesan yang kuat dan jelas",
+                    "D. Ketiga prinsip ini saling melengkapi untuk menghasilkan karya DKV berkualitas",
+                    "E. Desain yang baik hanya perlu warna menyala tanpa memikirkan keseimbangan",
+                    "F. Keseimbangan (Balance) berarti seluruh elemen harus selalu berukuran identik"
+                ],
+                correct: [0, 1, 2, 3], // A, B, C, D
+                explanation: "Ritme, Balance, dan Unity saling bekerja sama: Ritme memberi irama gerak, Balance memberi keharmonisan/kestabilan, dan Unity menyatukan pesan utuh."
+            }
+        ];
+
+        // -------------------------------------------------------------
+        // STATE MANAGEMENT
+        // -------------------------------------------------------------
+        let state = {
+            studentName: '',
+            nis: '',
+            currentIndex: 0,
+            userAnswers: {}, // key: questionId, value: Array of selected option indices [0, 2]
+            flaggedQuestions: {}, // key: questionId, value: boolean
+            timerSeconds: 45 * 60,
+            timerInterval: null,
+            score: 0,
+            grade: '',
+            timeSpentText: '',
+            isFinished: false
+        };
+
+        // DOM Elements
+        const loginScreen = document.getElementById('login-screen');
+        const quizScreen = document.getElementById('quiz-screen');
+        const resultScreen = document.getElementById('result-screen');
+        const loginForm = document.getElementById('login-form');
+        const userInfoBar = document.getElementById('user-info-bar');
+
+        // Login Submit Handler
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const nisInput = document.getElementById('nis').value.trim();
+            const passwordInput = document.getElementById('password').value.trim();
+            const alertBox = document.getElementById('login-alert');
+
+            // Default password check: dkv11
+            if (passwordInput !== 'dkv11') {
+                alertBox.classList.remove('hidden');
+                return;
+            }
+
+            alertBox.classList.add('hidden');
+            state.nis = nisInput;
+            state.studentName = nisInput.toUpperCase(); // simple display name
+
+            // Update Nav Header
+            document.getElementById('nav-user-name').innerText = state.studentName;
+            document.getElementById('nav-user-nis').innerText = 'NIS: ' + state.nis;
+            userInfoBar.classList.remove('hidden');
+
+            // Switch to Quiz Screen
+            loginScreen.classList.add('hidden');
+            quizScreen.classList.remove('hidden');
+
+            // Initialize Quiz
+            initQuiz();
+        });
+
+        function initQuiz() {
+            renderQuestionGrid();
+            loadQuestion(0);
+            startTimer();
+        }
+
+        function startTimer() {
+            const display = document.getElementById('timer-display');
+            state.timerInterval = setInterval(() => {
+                if (state.timerSeconds <= 0) {
+                    clearInterval(state.timerInterval);
+                    finishQuiz();
+                    return;
+                }
+                state.timerSeconds--;
+                const mins = Math.floor(state.timerSeconds / 60);
+                const secs = state.timerSeconds % 60;
+                display.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        // Render Sidebar Navigation Grid
+        function renderQuestionGrid() {
+            const grid = document.getElementById('question-grid');
+            grid.innerHTML = '';
+
+            questionBank.forEach((q, idx) => {
+                const btn = document.createElement('button');
+                btn.id = `grid-btn-${idx}`;
+                btn.type = 'button';
+                btn.onclick = () => jumpToQuestion(idx);
+                btn.className = getGridBtnClass(idx);
+                btn.innerText = idx + 1;
+                grid.appendChild(btn);
+            });
+
+            updateAnsweredCount();
+        }
+
+        function getGridBtnClass(idx) {
+            const qId = questionBank[idx].id;
+            const isCurrent = idx === state.currentIndex;
+            const isAnswered = state.userAnswers[qId] && state.userAnswers[qId].length > 0;
+            const isFlagged = state.flaggedQuestions[qId];
+
+            let base = "h-10 w-full rounded-xl text-xs font-bold transition-all border flex items-center justify-center ";
+            
+            if (isCurrent) {
+                base += "ring-2 ring-brand-500 ring-offset-2 ";
+            }
+
+            if (isFlagged) {
+                return base + "bg-amber-400 text-amber-950 border-amber-500";
+            } else if (isAnswered) {
+                return base + "bg-brand-600 text-white border-brand-700";
+            } else {
+                return base + "bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200";
+            }
+        }
+
+        function updateGridButtons() {
+            questionBank.forEach((_, idx) => {
+                const btn = document.getElementById(`grid-btn-${idx}`);
+                if (btn) btn.className = getGridBtnClass(idx);
+            });
+            updateAnsweredCount();
+        }
+
+        function updateAnsweredCount() {
+            let count = 0;
+            questionBank.forEach(q => {
+                if (state.userAnswers[q.id] && state.userAnswers[q.id].length > 0) {
+                    count++;
+                }
+            });
+            document.getElementById('answered-count').innerText = count;
+        }
+
+        function loadQuestion(index) {
+            state.currentIndex = index;
+            const q = questionBank[index];
+
+            // Update Progress Bar
+            const progress = ((index + 1) / questionBank.length) * 100;
+            document.getElementById('progress-bar-fill').style.width = `${progress}%`;
+
+            // Question Header
+            document.getElementById('current-q-num').innerText = index + 1;
+            document.getElementById('question-text').innerHTML = `
+                <span class="text-xs font-bold text-brand-600 uppercase tracking-wider block mb-1">[Topik: ${q.topic}]</span>
+                ${q.question}
+            `;
+
+            // Render 6 Options with Checkboxes
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+
+            const selectedAnswers = state.userAnswers[q.id] || [];
+
+            q.options.forEach((optText, optIdx) => {
+                const isChecked = selectedAnswers.includes(optIdx);
+                const optId = `opt-${q.id}-${optIdx}`;
+
+                const wrapper = document.createElement('div');
+                wrapper.className = "custom-checkbox";
+                wrapper.innerHTML = `
+                    <input type="checkbox" id="${optId}" class="hidden" ${isChecked ? 'checked' : ''} onchange="toggleOption(${q.id}, ${optIdx})">
+                    <label for="${optId}" class="flex items-start p-3.5 border-2 border-slate-200 rounded-xl cursor-pointer hover:border-slate-300 transition-all bg-white text-slate-700 text-xs sm:text-sm leading-relaxed">
+                        <div class="checkbox-icon flex-shrink-0 w-5 h-5 rounded-md border-2 border-slate-300 flex items-center justify-center mr-3 mt-0.5 text-xs transition-colors">
+                            <i class="fa-solid fa-check ${isChecked ? '' : 'hidden'}"></i>
+                        </div>
+                        <span class="flex-grow">${optText}</span>
+                    </label>
+                `;
+                container.appendChild(wrapper);
+            });
+
+            // Update Controls Buttons
+            document.getElementById('prev-btn').disabled = index === 0;
+
+            const nextBtn = document.getElementById('next-btn');
+            const finishBtn = document.getElementById('finish-btn');
+            
+            if (index === questionBank.length - 1) {
+                nextBtn.classList.add('hidden');
+                finishBtn.classList.remove('hidden');
+            } else {
+                nextBtn.classList.remove('hidden');
+                finishBtn.classList.add('hidden');
+            }
+
+            // Update Flag Button state
+            const flagBtn = document.getElementById('flag-btn');
+            if (state.flaggedQuestions[q.id]) {
+                flagBtn.classList.add('bg-amber-400', 'text-amber-950');
+                flagBtn.classList.remove('bg-amber-50', 'text-amber-700');
+            } else {
+                flagBtn.classList.remove('bg-amber-400', 'text-amber-950');
+                flagBtn.classList.add('bg-amber-50', 'text-amber-700');
+            }
+
+            updateGridButtons();
+        }
+
+        function toggleOption(qId, optIdx) {
+            if (!state.userAnswers[qId]) {
+                state.userAnswers[qId] = [];
+            }
+
+            const currentArr = state.userAnswers[qId];
+            const existsIndex = currentArr.indexOf(optIdx);
+
+            if (existsIndex > -1) {
+                currentArr.splice(existsIndex, 1);
+            } else {
+                currentArr.push(optIdx);
+            }
+
+            // Update UI checkbox icon manually for fast response
+            const optId = `opt-${qId}-${optIdx}`;
+            const checkbox = document.getElementById(optId);
+            const label = checkbox.nextElementSibling;
+            const icon = label.querySelector('.fa-check');
+
+            if (checkbox.checked) {
+                icon.classList.remove('hidden');
+            } else {
+                icon.classList.add('hidden');
+            }
+
+            updateGridButtons();
+        }
+
+        function navigateQuestion(direction) {
+            const newIndex = state.currentIndex + direction;
+            if (newIndex >= 0 && newIndex < questionBank.length) {
+                loadQuestion(newIndex);
+            }
+        }
+
+        function jumpToQuestion(index) {
+            loadQuestion(index);
+        }
+
+        function toggleFlagCurrentQuestion() {
+            const qId = questionBank[state.currentIndex].id;
+            state.flaggedQuestions[qId] = !state.flaggedQuestions[qId];
+            loadQuestion(state.currentIndex);
+        }
+
+        function toggleQuestionMap() {
+            const panel = document.getElementById('question-map-panel');
+            panel.classList.toggle('hidden');
+        }
+
+        function confirmFinishQuiz() {
+            let unanswered = 0;
+            questionBank.forEach(q => {
+                if (!state.userAnswers[q.id] || state.userAnswers[q.id].length === 0) {
+                    unanswered++;
+                }
+            });
+
+            let msg = "Apakah Anda yakin ingin menyelesaikan ujian?";
+            if (unanswered > 0) {
+                msg = `Masih ada ${unanswered} soal yang belum Anda jawab. Yakin ingin menyelesaikan ujian sekarang?`;
+            }
+
+            if (window.confirm(msg)) {
+                finishQuiz();
+            }
+        }
+
+        function finishQuiz() {
+            clearInterval(state.timerInterval);
+            state.isFinished = true;
+
+            // Calculate Elapsed Time
+            const totalSecs = 45 * 60 - state.timerSeconds;
+            const mins = Math.floor(totalSecs / 60);
+            const secs = totalSecs % 60;
+            state.timeSpentText = `${mins} menit ${secs} detik`;
+
+            // Calculate Score for Complex Multiple Choice
+            // Grading Rules for Complex MC:
+            // Full point per question if user set of answers EXACTLY matches correct set of answers.
+            let correctCount = 0;
+
+            questionBank.forEach(q => {
+                const userChoice = (state.userAnswers[q.id] || []).sort().join(',');
+                const correctChoice = [...q.correct].sort().join(',');
+
+                if (userChoice === correctChoice && userChoice !== '') {
+                    correctCount++;
+                }
+            });
+
+            // Calculate score out of 100
+            const scorePercentage = Math.round((correctCount / questionBank.length) * 100);
+            state.score = scorePercentage;
+
+            // Grade Classification based on user specification:
+            // Below 85: "Cukup"
+            // Below 93 (85 - 92): "Baik"
+            // Above/Equal 93: "Luar Biasa"
+            let gradeText = "";
+            let gradeBadgeBg = "";
+
+            if (scorePercentage < 85) {
+                gradeText = "CUKUP";
+                gradeBadgeBg = "bg-amber-500 text-white";
+            } else if (scorePercentage < 93) {
+                gradeText = "BAIK";
+                gradeBadgeBg = "bg-indigo-600 text-white";
+            } else {
+                gradeText = "LUAR BIASA";
+                gradeBadgeBg = "bg-emerald-500 text-white";
+            }
+
+            state.grade = gradeText;
+
+            // Render Result UI
+            document.getElementById('res-student-name').innerText = state.studentName;
+            document.getElementById('final-score').innerText = scorePercentage;
+            
+            const badgeEl = document.getElementById('grade-badge');
+            badgeEl.innerText = `Grade: ${gradeText}`;
+            badgeEl.className = `inline-block px-6 py-2 rounded-full font-bold text-base shadow-lg ${gradeBadgeBg}`;
+
+            document.getElementById('stat-correct').innerText = `${correctCount} / 20`;
+            document.getElementById('stat-wrong').innerText = `${20 - correctCount} / 20`;
+            document.getElementById('stat-time').innerText = `${mins}m ${secs}s`;
+
+            const statusEl = document.getElementById('stat-status');
+            if (scorePercentage >= 85) {
+                statusEl.innerText = "TUNTAS";
+                statusEl.className = "text-xl font-bold text-emerald-600";
+            } else {
+                statusEl.innerText = "REMIDIAL";
+                statusEl.className = "text-xl font-bold text-rose-600";
+            }
+
+            // Hide Quiz, Show Results
+            quizScreen.classList.add('hidden');
+            resultScreen.classList.remove('hidden');
+
+            // Render Review Items
+            renderReviewItems();
+        }
+
+        function renderReviewItems() {
+            const container = document.getElementById('review-container');
+            container.innerHTML = '';
+
+            questionBank.forEach((q, idx) => {
+                const userArr = (state.userAnswers[q.id] || []).sort();
+                const correctArr = [...q.correct].sort();
+                const isExactCorrect = userArr.join(',') === correctArr.join(',') && userArr.length > 0;
+
+                const item = document.createElement('div');
+                item.className = `p-5 rounded-2xl border ${isExactCorrect ? 'bg-emerald-50/40 border-emerald-200' : 'bg-rose-50/40 border-rose-200'} space-y-3`;
+
+                let optionsHtml = '';
+                q.options.forEach((optText, optIdx) => {
+                    const isUserSelected = userArr.includes(optIdx);
+                    const isKeyCorrect = correctArr.includes(optIdx);
+
+                    let optBadge = '';
+                    let optStyle = 'text-slate-600 border-slate-200 bg-white';
+
+                    if (isKeyCorrect && isUserSelected) {
+                        optStyle = 'text-emerald-800 border-emerald-300 bg-emerald-100/80 font-medium';
+                        optBadge = '<span class="ml-2 text-[10px] bg-emerald-600 text-white px-2 py-0.5 rounded-full font-bold">Benar (Dipilih)</span>';
+                    } else if (isKeyCorrect && !isUserSelected) {
+                        optStyle = 'text-indigo-800 border-indigo-300 bg-indigo-50 font-medium';
+                        optBadge = '<span class="ml-2 text-[10px] bg-indigo-600 text-white px-2 py-0.5 rounded-full font-bold">Kunci Jawaban</span>';
+                    } else if (!isKeyCorrect && isUserSelected) {
+                        optStyle = 'text-rose-800 border-rose-300 bg-rose-100/80 font-medium';
+                        optBadge = '<span class="ml-2 text-[10px] bg-rose-600 text-white px-2 py-0.5 rounded-full font-bold">Salah Dipilih</span>';
+                    }
+
+                    optionsHtml += `
+                        <div class="p-2.5 rounded-xl border ${optStyle} text-xs flex items-center justify-between">
+                            <span>${optText}</span>
+                            ${optBadge}
+                        </div>
+                    `;
+                });
+
+                item.innerHTML = `
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-center space-x-2">
+                            <span class="w-7 h-7 rounded-lg ${isExactCorrect ? 'bg-emerald-600' : 'bg-rose-600'} text-white font-bold flex items-center justify-center text-xs">
+                                ${idx + 1}
+                            </span>
+                            <span class="text-xs font-bold text-slate-500">[Topik: ${q.topic}]</span>
+                        </div>
+                        <span class="text-xs font-bold px-2.5 py-1 rounded-full ${isExactCorrect ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'}">
+                            ${isExactCorrect ? '<i class="fa-solid fa-check mr-1"></i> Tepat' : '<i class="fa-solid fa-xmark mr-1"></i> Kurang Tepat'}
+                        </span>
+                    </div>
+
+                    <p class="text-sm font-semibold text-slate-800">${q.question}</p>
+
+                    <div class="space-y-1.5 pt-1">
+                        ${optionsHtml}
+                    </div>
+
+                    <div class="p-3 bg-white/80 rounded-xl border border-slate-200/80 text-xs text-slate-600 mt-2">
+                        <span class="font-bold text-brand-600 block mb-0.5"><i class="fa-solid fa-lightbulb mr-1"></i> Pembahasan:</span>
+                        ${q.explanation}
+                    </div>
+                `;
+
+                container.appendChild(item);
+            });
+        }
+
+        function toggleReviewSection() {
+            const section = document.getElementById('review-section');
+            const btnText = document.getElementById('review-btn-text');
+            if (section.classList.contains('hidden')) {
+                section.classList.remove('hidden');
+                btnText.innerText = "Sembunyikan Pembahasan";
+                section.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                section.classList.add('hidden');
+                btnText.innerText = "Lihat Pembahasan Soal";
+            }
+        }
+
+        function restartQuiz() {
+            state.currentIndex = 0;
+            state.userAnswers = {};
+            state.flaggedQuestions = {};
+            state.timerSeconds = 45 * 60;
+            state.isFinished = false;
+
+            resultScreen.classList.add('hidden');
+            document.getElementById('review-section').classList.add('hidden');
+            quizScreen.classList.remove('hidden');
+
+            initQuiz();
+        }
+    </script>
+</body>
+</html>
