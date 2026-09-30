@@ -1,0 +1,1684 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DKV Edu - Portal Pembelajaran Tool Dasar Photoshop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        adobe: {
+                            dark: '#0f172a',
+                            card: '#1e293b',
+                            accent: '#0284c7',
+                            highlight: '#38bdf8',
+                            ps: '#31a8ff'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col">
+
+    <!-- Header / Navbar -->
+    <header class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="switchView('dashboard')">
+                <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-lg flex items-center justify-center font-extrabold text-xl shadow-lg shadow-blue-500/20 text-white">
+                    Ps
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight tracking-wide bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">
+                        DKV EduWorks
+                    </h1>
+                    <p class="text-xs text-blue-400 font-medium">Portal Pembelajaran Tool Dasar Photoshop</p>
+                </div>
+            </div>
+
+            <!-- Global Search & Stats -->
+            <div class="flex items-center gap-4">
+                <div class="hidden md:flex items-center bg-slate-800/80 border border-slate-700 rounded-full px-3 py-1.5 text-xs text-slate-300">
+                    <i class="fa-solid fa-graduation-cap text-blue-400 mr-2"></i>
+                    <span>Progres Belajar: <strong id="globalProgressText" class="text-white">0%</strong></span>
+                </div>
+                <button onclick="switchView('dashboard')" class="text-xs bg-slate-800 hover:bg-slate-700 border border-slate-700 px-3 py-2 rounded-lg transition flex items-center gap-2">
+                    <i class="fa-solid fa-house text-slate-400"></i>
+                    <span class="hidden sm:inline">Beranda</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- VIEW 1: DASHBOARD / TOOL LIST -->
+        <section id="dashboardView" class="space-y-8">
+            <!-- Hero Banner -->
+            <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-blue-900/40 via-indigo-900/30 to-slate-900 border border-blue-500/20 p-6 sm:p-10">
+                <div class="relative z-10 max-w-3xl space-y-4">
+                    <span class="inline-block px-3 py-1 text-xs font-semibold uppercase tracking-wider text-blue-400 bg-blue-500/10 border border-blue-500/30 rounded-full">
+                        Modul Kurikulum DKV - Semester 1
+                    </span>
+                    <h2 class="text-2xl sm:text-4xl font-extrabold text-white leading-tight">
+                        Kuasai Toolbox Photoshop untuk Karya Visual Profesional
+                    </h2>
+                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                        Pelajari fungsi rinci setiap seleksi, manipulasi, dan menggambar di Photoshop. Diperlengkap dengan materi instruksional standar DKV dan 10 latihan soal per tool.
+                    </p>
+                    
+                    <!-- Search and Filter Bar -->
+                    <div class="pt-2 flex flex-col sm:flex-row gap-3">
+                        <div class="relative flex-1">
+                            <i class="fa-solid fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                            <input type="text" id="searchInput" oninput="filterTools()" placeholder="Cari nama tool, shortcut, atau kategori..." class="w-full bg-slate-950/80 border border-slate-700 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-blue-500 transition">
+                        </div>
+                    </div>
+                </div>
+                <!-- Background Graphic Element -->
+                <div class="absolute -right-10 -bottom-10 opacity-10 pointer-events-none text-slate-100">
+                    <i class="fa-solid fa-vector-square text-[260px]"></i>
+                </div>
+            </div>
+
+            <!-- Tool Cards Grid Header -->
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                <div>
+                    <h3 class="text-xl font-bold text-white">Daftar Modul Tools</h3>
+                    <p class="text-xs text-slate-400">Pilih tool untuk mempelajari teori mendalam dan menjawab latihan 10 soal.</p>
+                </div>
+                <div id="toolCountBadge" class="text-xs bg-slate-800 border border-slate-700 px-3 py-1 rounded-full text-slate-300">
+                    5 Tools Tersedia
+                </div>
+            </div>
+
+            <!-- Tools Cards Container -->
+            <div id="toolsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Cards will be populated by JS -->
+            </div>
+        </section>
+
+        <!-- VIEW 2: TOOL DETAIL & QUIZ PAGE -->
+        <section id="detailView" class="hidden space-y-6">
+            <!-- Back Button & Header Bar -->
+            <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-4">
+                <button onclick="switchView('dashboard')" class="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-white bg-slate-800/80 border border-slate-700 px-4 py-2 rounded-xl transition">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Kembali ke Daftar Tools</span>
+                </button>
+                <div class="flex items-center gap-2" id="detailHeaderBadges">
+                    <!-- Dynamic badges -->
+                </div>
+            </div>
+
+            <!-- Tool Header Info Banner -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col md:flex-row items-start md:items-center gap-6">
+                <div id="detailToolIcon" class="w-16 h-16 rounded-2xl bg-blue-600/20 border border-blue-500/30 text-blue-400 flex items-center justify-center text-3xl shrink-0">
+                    <!-- Icon -->
+                </div>
+                <div class="flex-1 space-y-1">
+                    <div class="flex items-center gap-3">
+                        <h2 id="detailToolName" class="text-2xl font-bold text-white">Tool Name</h2>
+                        <span id="detailToolShortcut" class="bg-slate-800 border border-slate-700 text-blue-400 font-mono text-xs font-bold px-2.5 py-1 rounded-md">V</span>
+                    </div>
+                    <p id="detailToolTagline" class="text-slate-400 text-sm">Tagline deskripsi singkat tool.</p>
+                </div>
+            </div>
+
+            <!-- Tab Navigation (Materi / Latihan Soal) -->
+            <div class="flex border-b border-slate-800 space-x-4">
+                <button id="tabBtnMateri" onclick="switchDetailTab('materi')" class="pb-3 border-b-2 border-blue-500 font-semibold text-sm text-blue-400 flex items-center gap-2">
+                    <i class="fa-solid fa-book-open"></i>
+                    <span>Materi & Teori Detail</span>
+                </button>
+                <button id="tabBtnQuiz" onclick="switchDetailTab('quiz')" class="pb-3 border-b-2 border-transparent font-semibold text-sm text-slate-400 hover:text-slate-200 flex items-center gap-2">
+                    <i class="fa-solid fa-list-check"></i>
+                    <span>Latihan Soal (10 PG)</span>
+                    <span id="quizBadgeCompleted" class="hidden bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] px-2 py-0.5 rounded-full">Selesai</span>
+                </button>
+            </div>
+
+            <!-- TAB CONTENT 1: MATERI DETAIL -->
+            <div id="materiContent" class="space-y-6">
+                <!-- Content injected via JS -->
+            </div>
+
+            <!-- TAB CONTENT 2: QUIZ / LATIHAN SOAL -->
+            <div id="quizContent" class="hidden space-y-6">
+                <!-- Quiz Summary Box -->
+                <div id="quizScoreBanner" class="hidden bg-slate-900 border border-slate-800 rounded-2xl p-6 text-center space-y-3">
+                    <h3 class="text-lg font-bold text-slate-200">Hasil Evaluasi Pemahaman</h3>
+                    <div class="text-4xl font-extrabold text-blue-400" id="quizScoreDisplay">0 / 10</div>
+                    <p id="quizScoreFeedback" class="text-sm text-slate-400">Silakan kerjakan soal di bawah ini.</p>
+                    <button onclick="resetCurrentQuiz()" class="inline-flex items-center gap-2 text-xs bg-slate-800 hover:bg-slate-700 border border-slate-700 px-4 py-2 rounded-lg text-slate-200 transition">
+                        <i class="fa-solid fa-rotate-right"></i>
+                        <span>Ulangi Latihan Soal</span>
+                    </button>
+                </div>
+
+                <!-- Questions Container -->
+                <div id="questionsContainer" class="space-y-6">
+                    <!-- Questions injected via JS -->
+                </div>
+
+                <!-- Submit Button Area -->
+                <div class="flex justify-end pt-4">
+                    <button id="btnSubmitQuiz" onclick="submitCurrentQuiz()" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold px-6 py-3 rounded-xl shadow-lg shadow-blue-600/30 transition flex items-center gap-2">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <span>Kirim & Periksa Jawaban</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800 bg-slate-900/50 py-6 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-400 text-xs">
+            <p>© 2026 DKV EduWorks - Modul Pembelajaran Digital Desain Komunikasi Visual.</p>
+            <p>Materi Standar Adobe Photoshop CC untuk Pemula & Profesional DKV.</p>
+        </div>
+    </footer>
+
+    <script>
+        /* DATA MODEL FOR PHOTOSHOP TOOLS & 10 QUESTIONS PER TOOL (OPTIONS A-E) */
+        const toolsDatabase = [
+            {
+                id: 'move-tool',
+                name: 'Move Tool & Artboard Tool',
+                shortcut: 'V',
+                category: 'Navigasi & Transformasi',
+                icon: 'fa-solid fa-arrow-pointer',
+                tagline: 'Menggeser, mentransformasi, memposisikan, dan mengorganisasi elemen desain pada kanvas.',
+                materi: {
+                    fungsi: 'Move Tool (V) adalah alat utama untuk memindahkan objek, layer, atau seleksi yang aktif di dalam lembar kerja Photoshop. Tool ini juga berfungsi untuk mengubah ukuran (scaling), merotasi, dan mengatur perataan (alignment) antar layer.',
+                    konsepDKV: 'Dalam DKV, tata letak (layout) dan komposisi adalah kunci visual hierarchy. Move Tool digunakan secara konstan saat membuat poster, layout majalah, banner, dan UI design untuk mengatur keseimbangan visual (balance), alignment, dan kontras posisi elemen.',
+                    fiturUtama: [
+                        { nama: 'Auto-Select', ket: 'Jika diaktifkan pada Options Bar, Photoshop akan otomatis memilih layer objek saat Anda mengkliknya langsung di kanvas tanpa perlu memilih layer secara manual di Panel Layers.' },
+                        { nama: 'Show Transform Controls', ket: 'Menampilkan bounding box (kotak pembatas dengan titik anchor) di sekitar objek aktif untuk memudahkan scaling (mengubah ukuran) atau merotasi objek.' },
+                        { nama: 'Alignment Tools', ket: 'Mengatur posisi beberapa layer sekaligus agar rata kiri, rata tengah, rata kanan, rata atas, atau terdistribusi secara presisi.' },
+                        { nama: 'Artboard Tool', ket: 'Sub-tool dari Move Tool untuk membuat beberapa bidang kerja (canvas multi-frame) dalam satu dokumen, sangat berguna untuk desain UI/UX atau konten microblog media sosial.' }
+                    ],
+                    tipsPro: 'Tekan dan tahan tombol Shift saat mentransformasi objek pada versi Photoshop lama untuk mempertahankan rasio aspek (proposional). Di versi terbaru, tahan Alt saat menggeser objek dengan Move Tool untuk menduplikasi layer tersebut secara instan!'
+                },
+                questions: [
+                    {
+                        id: 1,
+                        q: 'Apa fungsi utama dari Move Tool (Shortcut V) dalam pembuatan komposisi tata letak desain DKV?',
+                        options: [
+                            'A. Membuat garis vektor dan kurva penyeimbang',
+                            'B. Memindahkan, mentransformasi, dan mengatur alur tata letak layer pada kanvas',
+                            'C. Menghapus latar belakang objek secara otomatis berdasarkan toleransi warna',
+                            'D. Mewarnai bidang kanvas dengan gradasi warna teratur',
+                            'E. Mengambil sampel warna dari objek lain di lembar kerja'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Move Tool berfungsi utama untuk memindahkan, mengatur posisi, dan merotasi/mentransformasi layer objek di kanvas.'
+                    },
+                    {
+                        id: 2,
+                        q: 'Fitur pada Options Bar Move Tool yang memungkinkan pengguna memilih layer secara otomatis hanya dengan mengklik objek di kanvas adalah...',
+                        options: [
+                            'A. Align Top Edges',
+                            'B. Distribute Widths',
+                            'C. Auto-Select',
+                            'D. Show Bounding Box Only',
+                            'E. Pixel Grid Lock'
+                        ],
+                        correct: 2, // Index C
+                        pembahasan: 'Fitur Auto-Select secara cerdas mengidentifikasi dan memilih layer berdasarkan elemen piksel yang diklik pengguna di kanvas.'
+                    },
+                    {
+                        id: 3,
+                        q: 'Shortcut keyboard cepat untuk menduplikasi elemen visual secara langsung saat menggesernya dengan Move Tool adalah dengan menahan tombol...',
+                        options: [
+                            'A. Ctrl (Windows) / Cmd (Mac)',
+                            'B. Alt (Windows) / Option (Mac)',
+                            'C. Shift',
+                            'D. Spacebar',
+                            'E. Tab'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Menahan tombol Alt/Option sambil menyeret objek dengan Move Tool akan membuat salinan (duplikat) dari layer tersebut.'
+                    },
+                    {
+                        id: 4,
+                        q: 'Kapan seorang desainer DKV sebaiknya menggunakan Artboard Tool dibanding lembar kerja standar?',
+                        options: [
+                            'A. Saat mencetak baliho berukuran raksasa dengan 1 halaman tunggal',
+                            'B. Saat mengedit foto portrait tunggal tanpa teks',
+                            'C. Saat membuat beberapa variasi desain ukuran iklan media sosial atau UI/UX dalam satu dokumen',
+                            'D. Saat memotong (cropping) gambar agar ukurannya mengecil',
+                            'E. Saat ingin mengubah format gambar dari PNG menjadi JPG'
+                        ],
+                        correct: 2, // Index C
+                        pembahasan: 'Artboard Tool memungkinkan adanya banyak bidang kerja (canvas) berukuran berbeda dalam 1 file file Photoshop.'
+                    },
+                    {
+                        id: 5,
+                        q: 'Apa fungsi tombol alignment "Distribute Horizontally" saat memilih 3 layer objek menggunakan Move Tool?',
+                        options: [
+                            'A. Menyatukan ketiga layer menjadi satu smart object',
+                            'B. Mengatur agar jarak antarsekat horizontal di antara ketiga objek menjadi persis sama',
+                            'C. Merotasi ketiga objek sebesar 90 derajat secara mendatar',
+                            'D. Menghapus dua layer di bagian kanan dan kiri secara acak',
+                            'E. Mengubah transparansi ketiga layer menjadi 50%'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Distribute Horizontally meratakan ruang kosong (spacing) horizontal secara merata di antara objek-objek terpilih.'
+                    },
+                    {
+                        id: 6,
+                        q: 'Jika centang "Show Transform Controls" diaktifkan pada Move Tool, apa indikator visual yang akan muncul pada layer terdaftar?',
+                        options: [
+                            'A. Garis putus-putus berjalan (marching ants)',
+                            'B. Bounding box dilengkapi 8 titik kontrol handle di sekeliling objek',
+                            'C. Tampilan garis kotak-kotak catur transparan',
+                            'D. Efek bayangan merah pada area background',
+                            'E. Kursor berubah menjadi bentuk kuas besar'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Show Transform Controls akan menampilkan kotak pembatas (bounding box) beserta titik jepit (handles) untuk rotasi dan resize.'
+                    },
+                    {
+                        id: 7,
+                        q: 'Saat melakukan rotasi pada objek menggunakan bounding box Move Tool, menahan tombol Shift akan membatasi sudut rotasi per kelipatan...',
+                        options: [
+                            'A. 5 derajat',
+                            'B. 10 derajat',
+                            'C. 15 derajat',
+                            'D. 30 derajat',
+                            'E. 45 derajat'
+                        ],
+                        correct: 2, // Index C
+                        pembahasan: 'Menahan tombol Shift saat merotasi objek membatasi pergerakan sudut secara presisi pada interval 15 derajat.'
+                    },
+                    {
+                        id: 8,
+                        q: 'Bagaimana cara memindahkan isi seleksi tanpa memindahkan seluruh isi layer saat menggunakan Move Tool?',
+                        options: [
+                            'A. Langsung mengklik dan menyeret di dalam area garis seleksi yang aktif',
+                            'B. Menghapus layer terlebih dahulu sebelum dipindah',
+                            'C. Mengubah layer menjadi background terkunci',
+                            'D. Menekan tombol Delete lalu menempelkannya kembali',
+                            'E. Mengaktifkan fitur Lock Transparent Pixels'
+                        ],
+                        correct: 0, // Index A
+                        pembahasan: 'Jika ada seleksi aktif (marching ants), Move Tool hanya memotong dan menggeser piksel yang berada di dalam area seleksi tersebut.'
+                    },
+                    {
+                        id: 9,
+                        q: 'Perbedaan mendasar antara kelompok ikon "Align" dan "Distribute" pada Options Bar Move Tool adalah...',
+                        options: [
+                            'A. Align mengatur pewarnaan, Distribute mengatur ketajaman',
+                            'B. Align meratakan posisi berdasarkan sumbu tepi/tengah, Distribute mengatur kesamaan jarak/interval antarobjek',
+                            'C. Align digunakan untuk teks, Distribute khusus untuk gambar bitmap',
+                            'D. Align untuk dokumen CMYK, Distribute untuk RGB',
+                            'E. Tidak ada perbedaan, keduanya memiliki fungsi identik'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Align berfungsi meluruskan patokan tepi/tengah, sedangkan Distribute membagi jarak kosong di antara objek agar seragam.'
+                    },
+                    {
+                        id: 10,
+                        q: 'Kombinasi shortcut keyboard untuk dengan cepat berpindah ke Move Tool sementara saat sedang menggunakan alat lain (seperti Brush Tool) adalah...',
+                        options: [
+                            'A. Menahan tombol Ctrl / Cmd',
+                            'B. Menahan tombol Caps Lock',
+                            'C. Menekan F5',
+                            'D. Double-click pada tombol kanan mouse',
+                            'E. Menahan tombol Tab'
+                        ],
+                        correct: 0, // Index A
+                        pembahasan: 'Menahan tombol Ctrl (Cmd di Mac) saat menggunakan alat seperti Brush atau Selection secara sementara mengubah kursor menjadi Move Tool.'
+                    }
+                ]
+            },
+            {
+                id: 'marquee-lasso',
+                name: 'Marquee & Lasso Tools',
+                shortcut: 'M / L',
+                category: 'Seleksi Geometris & Bebas',
+                icon: 'fa-solid fa-vector-square',
+                tagline: 'Membuat seleksi piksel presisi berdasarkan bentuk geometris maupun gambar tangan bebas.',
+                materi: {
+                    fungsi: 'Kelompok Marquee Tool (M) digunakan untuk membuat seleksi piksel berbentuk geometris teratur (segi empat, lingkaran, baris tunggal). Sedangkan Lasso Tools (L) digunakan untuk membuat seleksi bentuk bebas (freehand), garis patah-patah poligonal, atau mengikuti tepi warna secara magnetis.',
+                    konsepDKV: 'Pemotongan objek (isolation/cutout) adalah fondasi manipulasi foto dalam DKV. Marquee digunakan untuk framing cepat, thumbnail, atau masking geometris. Lasso sangat berguna untuk mengisolasi bentuk-bentuk organik yang tidak teratur secara cepat.',
+                    fiturUtama: [
+                        { nama: 'Rectangular & Elliptical Marquee', ket: 'Seleksi berpatokan bentuk persegi atau lingkaran sempurna (dengan menahan Shift).' },
+                        { nama: 'Feather', ket: 'Mengatur kelembutan/gradasi pada tepi garis seleksi agar hasil potongan tidak kaku (terbaur transparan).' },
+                        { nama: 'Polygonal Lasso Tool', ket: 'Membuat seleksi dengan garis lurus patah-patah, sangat cocok untuk objek bersudut tajam seperti gedung atau kotak kemasan.' },
+                        { nama: 'Magnetic Lasso Tool', ket: 'Secara otomatis menempel pada tepi objek berdasarkan kontras perbedaan warna antara latar dan objek.' }
+                    ],
+                    tipsPro: 'Gunakan tombol Shift untuk MENAMBAH area seleksi (+), dan tombol Alt untuk MENGURANGI area seleksi (-). Tekan Ctrl + D untuk membatalkan seleksi (Deselect).'
+                },
+                questions: [
+                    {
+                        id: 1,
+                        q: 'Shortcut keyboard standar untuk membatalkan (menghilangkan) garis seleksi "marching ants" yang sedang aktif adalah...',
+                        options: [
+                            'A. Ctrl + Z',
+                            'B. Ctrl + D',
+                            'C. Ctrl + A',
+                            'D. Ctrl + X',
+                            'E. Shift + Esc'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Ctrl + D (Deselect) digunakan untuk menghilangkan area seleksi yang aktif di lembar kerja.'
+                    },
+                    {
+                        id: 2,
+                        q: 'Untuk membuat seleksi bentuk lingkaran sempurna (bukan elips lonjong) menggunakan Elliptical Marquee Tool, kita wajib menahan tombol...',
+                        options: [
+                            'A. Alt',
+                            'B. Ctrl',
+                            'C. Shift',
+                            'D. Spacebar',
+                            'E. Tab'
+                        ],
+                        correct: 2, // Index C
+                        pembahasan: 'Menahan tombol Shift memaksa rasio aspek seleksi geometris menjadi proporsional (1:1), menghasilkan lingkaran atau persegi sempurna.'
+                    },
+                    {
+                        id: 3,
+                        q: 'Parameter pada Options Bar Marquee Tool yang berfungsi untuk melembutkan atau mengaburkan batas tepi hasil potongan seleksi disebut...',
+                        options: [
+                            'A. Anti-alias',
+                            'B. Tolerance',
+                            'C. Feather',
+                            'D. Opacity',
+                            'E. Hardness'
+                        ],
+                        correct: 2, // Index C
+                        pembahasan: 'Feather memberi efek pudar (blur) pada tepi hasil seleksi sehingga tidak tampak tajam patah.'
+                    },
+                    {
+                        id: 4,
+                        q: 'Tool manakah dalam kelompok Lasso yang paling efektif untuk memotong gambar kemasan produk berbentuk kotak rigid dengan tepi sudut-sudut lurus?',
+                        options: [
+                            'A. Standard Lasso Tool',
+                            'B. Polygonal Lasso Tool',
+                            'C. Magnetic Lasso Tool',
+                            'D. Magic Wand Tool',
+                            'E. Artboard Tool'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Polygonal Lasso Tool dikhususkan untuk membuat jalur seleksi lurus berurutan, sangat pas untuk bentuk bersudut rigid.'
+                    },
+                    {
+                        id: 5,
+                        q: 'Bagaimana cara menambahkan area seleksi baru ke dalam seleksi yang sudah ada sebelumnya tanpa menghilangkan seleksi pertama?',
+                        options: [
+                            'A. Tahan tombol Alt saat membuat seleksi baru',
+                            'B. Tahan tombol Shift saat membuat seleksi baru',
+                            'C. Tahan tombol Ctrl + Alt secara bersamaan',
+                            'D. Tekan tombol Spacebar',
+                            'E. Tekan tombol Enter'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Menahan Shift saat menyeleksi mengaktifkan mode "Add to Selection" (simbol dua kotak bergabung).'
+                    },
+                    {
+                        id: 6,
+                        q: 'Prinsip kerja Magnetic Lasso Tool dalam mencari batas seleksi secara otomatis bergantung pada...',
+                        options: [
+                            'A. Tekanan pensil pada pen tablet',
+                            'B. Kontras warna dan kecerahan piksel antara objek dengan latar belakang',
+                            'C. Jenis font yang digunakan di dalam dokumen',
+                            'D. Ukuran file resolusi DPI gambar',
+                            'E. Kedalaman warna dokumen (RGB vs CMYK)'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Magnetic Lasso bekerja dengan mendeteksi perbedaan garis kontras warna piksel yang mencolok di tepi objek.'
+                    },
+                    {
+                        id: 7,
+                        q: 'Fungsi dari fitur "Anti-aliasing" pada Options Bar seleksi Marquee/Lasso adalah...',
+                        options: [
+                            'A. Memperbesar ukuran resolusi piksel',
+                            'B. Menghaluskan undakan piksel (stair-stepping) pada garis lengkung seleksi',
+                            'C. Mengubah mode warna menjadi hitam putih secara langsung',
+                            'D. Menghapus latar belakang secara otomatis',
+                            'E. Mengunci layer dari perubahan'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Anti-aliasing menghaluskan transisi tepi piksel pada garis seleksi melengkung agar tidak terlihat bergerigi (jagged).'
+                    },
+                    {
+                        id: 8,
+                        q: 'Saat membuat seleksi bebas dengan Lasso Tool biasa, apa yang terjadi jika Anda melepas klik mouse sebelum titik akhir bertemu dengan titik awal?',
+                        options: [
+                            'A. Seleksi akan dibatalkan secara otomatis',
+                            'B. Photoshop akan menutup seleksi secara otomatis dengan garis lurus ke titik awal',
+                            'C. Aplikasi Photoshop akan berenti merespon (freeze)',
+                            'D. Seluruh kanvas akan terpotong',
+                            'E. Komputer mengeluarkan suara peringatan'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Lasso Tool akan secara otomatis menghubungkan titik pelepasan mouse dengan titik awal melalui garis lurus untuk menutup kurva seleksi.'
+                    },
+                    {
+                        id: 9,
+                        q: 'Opsi "Fixed Ratio" pada Style Options Bar Rectangular Marquee Tool berguna untuk...',
+                        options: [
+                            'A. Mengunci ketajaman warna objek',
+                            'B. Menentukan perbandingan skala lebar dan tinggi seleksi secara pasti (misal 16:9)',
+                            'C. Membatasi ukuran file hasil ekspor',
+                            'D. Menghapus piksel di luar area seleksi',
+                            'E. Mengubah mode seleksi menjadi vektor path'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Fixed Ratio memungkinkan pembuat desain mengunci rasio aspek seleksi seperti 1:1, 4:3, atau 16:9 secara konstan.'
+                    },
+                    {
+                        id: 10,
+                        q: 'Kombinasi tombol keyboard untuk membalikkan area seleksi (Invert Selection) agar area di luar seleksi awal yang menjadi terpilih adalah...',
+                        options: [
+                            'A. Ctrl + Shift + I',
+                            'B. Ctrl + Alt + Z',
+                            'C. Ctrl + Shift + U',
+                            'D. Ctrl + J',
+                            'E. Alt + Backspace'
+                        ],
+                        correct: 0, // Index A
+                        pembahasan: 'Ctrl + Shift + I (Inverse) berfungsi membalikkan bidang seleksi, dari area objek menjadi area luar (background), atau sebaliknya.'
+                    }
+                ]
+            },
+            {
+                id: 'quick-selection-wand',
+                name: 'Quick Selection & Magic Wand Tool',
+                shortcut: 'W',
+                category: 'Seleksi Berbasis Warna & AI',
+                icon: 'fa-solid fa-wand-magic-sparkles',
+                tagline: 'Isolasi subjek berdasarkan kemiripan tonalan warna piksel atau pengenalan objek otomatis.',
+                materi: {
+                    fungsi: 'Quick Selection Tool mengecat area seleksi menggunakan ujung kuas yang secara otomatis menemukan dan mengikuti batas objek. Magic Wand Tool memilih area bernuansa warna serupa hanya dengan satu kali klik.',
+                    konsepDKV: 'Sangat vital untuk pekerjaan manipulasi foto berkecepatan tinggi (commercial retouching). Memisahkan model dari studio background berlatar polos (photostudio isolation) paling efisien menggunakan Magic Wand atau Object Selection Tool.',
+                    fiturUtama: [
+                        { nama: 'Tolerance (Magic Wand)', ket: 'Menentukan seberapa sensitif tingkat kemiripan warna yang dipilih (nilai 0-255). Semakin tinggi tolerance, semakin luas variasi warna yang terpilih.' },
+                        { nama: 'Contiguous', ket: 'Jika dicentang, Magic Wand hanya menyeleksi piksel berdampingan yang terhubung. Jika tidak dicentang, semua piksel berwarna sama di seluruh kanvas akan ikut terpilih.' },
+                        { nama: 'Sample All Layers', ket: 'Memungkinkan seleksi mengambil referensi gabungan warna dari seluruh layer yang terlihat, bukan hanya layer yang sedang aktif.' },
+                        { nama: 'Select Subject / Select and Mask', ket: 'Fitur otomatis berbasis AI Adobe Sensei untuk mendeteksi manusia/objek utama dan mempermudah perapihan rambut/bulu.' }
+                    ],
+                    tipsPro: 'Gunakan tombol kurung siku [ dan ] untuk mengecilkan atau membesarkan ukuran diameter kuas Quick Selection Tool dengan cepat.'
+                },
+                questions: [
+                    {
+                        id: 1,
+                        q: 'Bagaimana dampak menaikkan nilai "Tolerance" pada Magic Wand Tool dari 10 menjadi 80?',
+                        options: [
+                            'A. Garis seleksi menjadi semakin lambat berproses',
+                            'B. Rentang variasi warna yang terjangkau seleksi menjadi jauh lebih luas',
+                            'C. Seleksi hanya akan memilih warna putih mutlak saja',
+                            'D. Ukuran file desain menjadi membengkak',
+                            'E. Warna objek yang diklik akan terhapus otomatis'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Tolerance mengatur rentang sampel tonalan warna. Semakin tinggi angkanya, semakin toleran tool terhadap perbedaan rentang warna terang/gelap.'
+                    },
+                    {
+                        id: 2,
+                        q: 'Jika opsi "Contiguous" di-uncheck (dihilangkan centangnya) pada Magic Wand Tool, apa yang akan terjadi saat mengklik warna merah pada gambar?',
+                        options: [
+                            'A. Hanya warna merah di titik klik yang terpilih',
+                            'B. Seluruh piksel berwarna merah di seluruh bagian lembar kerja akan ikut terpilih',
+                            'C. Warna merah akan diubah menjadi transparan',
+                            'D. Seleksi akan berbentuk bundar sempurna',
+                            'E. Gambar langsung terpotong secara permanen'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Tanpa Contiguous, Magic Wand tidak membatasi seleksi pada area yang tersambung saja, melainkan mengambil seluruh warna serupa di kanvas.'
+                    },
+                    {
+                        id: 3,
+                        q: 'Shortcut tombol keyboard cepat untuk memperbesar ukuran diameter kuas Quick Selection Tool adalah...',
+                        options: [
+                            'A. Tombol Kurung Siku Kanan ]',
+                            'B. Tombol Kurung Siku Kiri [',
+                            'C. Tombol Spacebar',
+                            'D. Tombol Backspace',
+                            'E. Tombol Arrow Up'
+                        ],
+                        correct: 0, // Index A
+                        pembahasan: 'Tombol ] berfungsi membesarkan diameter brush, sedangkan [ berfungsi mengecilkan diameter brush.'
+                    },
+                    {
+                        id: 4,
+                        q: 'Fitur canggih pada workspace "Select and Mask" yang paling efektif digunakan untuk memisahkan helai rambut halus model dari background adalah...',
+                        options: [
+                            'A. Paint Bucket Tool',
+                            'B. Refine Edge Brush Tool',
+                            'C. Clone Stamp Tool',
+                            'D. Crop Tool',
+                            'E. Gradient Tool'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Refine Edge Brush Tool dikhususkan untuk merapikan detail rumit seperti helai rambut, bulu hewan, atau kain tipis.'
+                    },
+                    {
+                        id: 5,
+                        q: 'Fitur pintar berbasis AI pada Options Bar Quick Selection yang secara otomatis mencari objek utama di kanvas dalam satu kali klik adalah...',
+                        options: [
+                            'A. Auto Content-Aware',
+                            'B. Select Subject',
+                            'C. Global Color Fill',
+                            'D. Flatten Image',
+                            'E. Rasterize Layer'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Fitur Select Subject memanfaatkan teknologi pembelajaran kecerdasan buatan untuk menganalisis subjek utama gambar secara otomatis.'
+                    },
+                    {
+                        id: 6,
+                        q: 'Apa fungsi utama dari mengaktifkan opsi "Sample All Layers" saat menyeleksi menggunakan Quick Selection Tool?',
+                        options: [
+                            'A. Menggabungkan semua layer menjadi satu layer tunggal',
+                            'B. Memungkinkan penyeleksian berdasarkan informasi gabungan piksel dari seluruh layer yang tampak',
+                            'C. Menyimpan hasil seleksi ke dokumen baru',
+                            'D. Mengunci posisi seluruh layer agar tidak bergeser',
+                            'E. Menghapus background di semua layer secara serentak'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Sample All Layers membuat alat seleksi membaca seluruh piksel yang terlihat di kanvas tanpa perlu berpindah layer aktif.'
+                    },
+                    {
+                        id: 7,
+                        q: 'Dalam pembuatan komposisi poster DKV, gambar berlatar belakang studio hijau polos (green screen) paling cepat diisolasi menggunakan...',
+                        options: [
+                            'A. Pen Tool secara manual',
+                            'B. Magic Wand Tool mengklik background hijau lalu melakukan Invert Selection',
+                            'C. Slice Tool',
+                            'D. Eraser Tool ukuran kecil',
+                            'E. Blur Tool'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Latar polos hijau sangat efisien diklik satu kali dengan Magic Wand lalu di-invert (Ctrl+Shift+I) untuk mendapatkan subjeknya.'
+                    },
+                    {
+                        id: 8,
+                        q: 'Saat menggunakan Quick Selection Tool, bagaimana cara mengubah mode dari menambah area seleksi (+) menjadi mengurangi area seleksi (-)?',
+                        options: [
+                            'A. Menahan tombol Alt',
+                            'B. Menahan tombol Shift',
+                            'C. Menekan tombol Tab',
+                            'D. Menekan tombol Enter',
+                            'E. Menahan tombol Ctrl'
+                        ],
+                        correct: 0, // Index A
+                        pembahasan: 'Menahan Alt saat mengusap Quick Selection Tool akan mengaktifkan ikon minus (-) untuk menghapus bagian seleksi yang berlebih.'
+                    },
+                    {
+                        id: 9,
+                        q: 'Tool baru dalam kelompok W yang memungkinkan kita menggambar kotak di sekitar objek lalu Photoshop akan otomatis memotong kontur objek tersebut dinamakan...',
+                        options: [
+                            'A. Object Selection Tool',
+                            'B. Crop Tool',
+                            'C. Patch Tool',
+                            'D. Spot Healing Brush',
+                            'E. Perspective Crop'
+                        ],
+                        correct: 0, // Index A
+                        pembahasan: 'Object Selection Tool memungkinkan pengguna memblok area persegi/lasso di sekitar objek, lalu AI menganalisis bentuk konturnya.'
+                    },
+                    {
+                        id: 10,
+                        q: 'Apa kelemahan utama mengandalkan Magic Wand Tool pada foto yang memiliki gradasi warna latar belakang yang sangat kompleks?',
+                        options: [
+                            'A. File foto akan berubah warna menjadi hitam putih',
+                            'B. Hasil seleksi cenderung terpotong-potong tidak rapi dan bercelah karena batas variasi warna yang tidak tegas',
+                            'C. Komputer akan langsung menutup aplikasi secara paksa',
+                            'D. Resolusi gambar akan mendadak turun menjadi 72 dpi',
+                            'E. Pen Tool tidak bisa digunakan lagi setelahnya'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Magic Wand berbasis kemiripan nilai warna piksel. Jika background kaya gradasi kompleks, Magic Wand akan kesulitan menemukan batas tepi pasti.'
+                    }
+                ]
+            },
+            {
+                id: 'brush-tool',
+                name: 'Brush Tool & Pencil Tool',
+                shortcut: 'B',
+                category: 'Ilustrasi & Digital Painting',
+                icon: 'fa-solid fa-paint-brush',
+                tagline: 'Membuat goresan artistik, digital painting, shading, retouching, dan masking.',
+                materi: {
+                    fungsi: 'Brush Tool (B) adalah alat lukis digital utama di Photoshop. Digunakan untuk mengoleskan piksel warna dengan berbagai bentuk ujung kuas, tingkat kelembutan, transparansi, dan tekstur.',
+                    konsepDKV: 'Sangat Krusial untuk cabang ilmu Digital Illustration, Concept Art, Matte Painting, serta pembuatan Masking pada manipulasi foto. Penguasaan Brush Tool dengan pen tablet (Wacom/Huiyon) menentukan kualitas shading dan pewarnaan seni visual.',
+                    fiturUtama: [
+                        { nama: 'Hardness', ket: 'Menentukan ketajaman tepi goresan. Hardness 100% menghasilkan tepi padat dan tajam, sedangkan 0% menghasilkan tepi yang sangat lembut/pudar (airbrush).' },
+                        { nama: 'Opacity vs Flow', ket: 'Opacity menentukan transparansi maksimal dalam satu goresan. Flow menentukan kecepatan keluarnya tinta secara bertahap saat kuas diusap.' },
+                        { nama: 'Brush Preset Picker', ket: 'Kumpulan jenis ujung kuas (Dry Media, Wet Media, Special Effects, Pattern) yang dapat disesuaikan teksturnya.' },
+                        { nama: 'Symmetry Mode', ket: 'Membuat cermin goresan kuas secara otomatis berdasarkan garis aksis (sangat berguna untuk mendesain karakter/karakter ornamen simetris).' }
+                    ],
+                    tipsPro: 'Tahan Alt + Klik Kanan Mouse lalu seret ke kiri/kanan untuk mengubah ukuran brush secara cepat, atau seret ke atas/bawah untuk mengubah Hardness brush secara visual!'
+                },
+                questions: [
+                    {
+                        id: 1,
+                        q: 'Mengubah nilai "Hardness" Brush Tool menjadi 0% akan menghasilkan karakteristik goresan...',
+                        options: [
+                            'A. Tepi garis yang sangat tajam dan padat tanpa gradasi',
+                            'B. Goresan putus-putus berbentuk kotak-kotak',
+                            'C. Tepi goresan yang sangat halus, pudar, dan membaur lembut (airbrush)',
+                            'D. Goresan berupa garis vektor tanpa piksel',
+                            'E. Goresan yang sama sekali tidak terlihat di kanvas'
+                        ],
+                        correct: 2, // Index C
+                        pembahasan: 'Hardness 0% membuat batas luar goresan kuas pudar halus (soft edge), ideal untuk shading dan blending warna.'
+                    },
+                    {
+                        id: 2,
+                        q: 'Perbedaan mendasar antara pengaturan "Opacity" dan "Flow" pada Options Bar Brush Tool adalah...',
+                        options: [
+                            'A. Opacity untuk warna hitam, Flow untuk warna putih',
+                            'B. Opacity menentukan batas transparansi maksimal satu usapan, Flow menentukan kecepatan penumpukan cairan cat saat kuas ditarik',
+                            'C. Opacity mengubah ukuran kuas, Flow mengubah bentuk kuas',
+                            'D. Opacity digunakan untuk file RGB, Flow untuk file CMYK',
+                            'E. Keduanya memiliki rumus mekanis yang persis sama tanpa beda'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Opacity membatasi tingkat kepekatan tertinggi satu tumpukan goresan, sedangkan Flow mengatur seberapa cepat tinta mengalir keluar.'
+                    },
+                    {
+                        id: 3,
+                        q: 'Shortcut praktis saat menggunakan Brush Tool untuk mengambil/menyerap warna langsung dari kanvas (Eyedropper temporary) adalah dengan menahan tombol...',
+                        options: [
+                            'A. Shift',
+                            'B. Alt (Windows) / Option (Mac)',
+                            'C. Ctrl',
+                            'D. Spacebar',
+                            'E. Tab'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Menahan Alt saat Brush Tool aktif secara otomatis mengubah kursor menjadi Eyedropper untuk memilih warna penjelajah.'
+                    },
+                    {
+                        id: 4,
+                        q: 'Fitur pada Photoshop yang memungkinkan seniman ilustrasi DKV menggambar ornamen mandala atau wajah karakter yang presisi secara cermin kiri-kanan adalah...',
+                        options: [
+                            'A. Smoothing Bar',
+                            'B. Symmetry Mode',
+                            'C. Dual Brush Panel',
+                            'D. Color Dynamics',
+                            'E. Noise Filter'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Symmetry Mode menyediakan garis cermin (Mandala, Radial, Vertical) agar goresan tercermin otomatis.'
+                    },
+                    {
+                        id: 5,
+                        q: 'Nilai "Smoothing" pada Brush Tool berfungsi membantu ilustrator dalam hal...',
+                        options: [
+                            'A. Mengurangi ukuran kapasitas file gambar',
+                            'B. Meredam getaran tangan agar garis goresan kuas menjadi mulus dan tidak bergerigi',
+                            'C. Menghapus latar belakang secara otomatis',
+                            'D. Mengubah warna cat secara acak',
+                            'E. Mengunci pergerakan kursor mouse'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Smoothing memberi efek stabilisasi kursor mouse/stylus pen sehingga tarikan garis ilustrasi menjadi sangat halus.'
+                    },
+                    {
+                        id: 6,
+                        q: 'Untuk menggambar garis lurus sempurna menggunakan Brush Tool dari titik A ke titik B, teknik yang paling tepat adalah...',
+                        options: [
+                            'A. Klik di titik A, tahan Shift, lalu klik di titik B',
+                            'B. Klik di titik A, tahan Alt, lalu klik di titik B',
+                            'C. Klik di titik A, tahan Ctrl, lalu seret mouse',
+                            'D. Mengusap mouse secepat mungkin',
+                            'E. Menahan tombol Spacebar saat menggambar'
+                        ],
+                        correct: 0, // Index A
+                        pembahasan: 'Klik sekali, lalu tahan Shift dan klik di lokasi kedua akan membuat garis lurus penghubung otomatis.'
+                    },
+                    {
+                        id: 7,
+                        q: 'Apa perbedaan mendasar antara Brush Tool dengan Pencil Tool dalam kelompok alat yang sama?',
+                        options: [
+                            'A. Pencil Tool tidak memiliki opsi warna',
+                            'B. Pencil Tool selalu menghasilkan garis bertopi tajam (hard-edged) tanpa anti-aliasing',
+                            'C. Brush Tool tidak bisa digunakan pada layer transparan',
+                            'D. Pencil Tool hanya bekerja pada format file vector EPS',
+                            'E. Brush Tool tidak mendukung penggunaan pen tablet'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Pencil Tool menghasilkan garis piksel murni bersudut tajam tanpa kelembutan anti-aliasing di tepi pikselnya.'
+                    },
+                    {
+                        id: 8,
+                        q: 'Bagaimana cara membuka panel Brush Settings lengkap (untuk mengatur Jitter, Shape Dynamics, dan Texture)?',
+                        options: [
+                            'A. Tekan tombol F5 pada keyboard',
+                            'B. Tekan tombol F12',
+                            'C. Tekan Ctrl + Shift + N',
+                            'D. Double-click pada ikon hand tool',
+                            'E. Tekan Alt + Backspace'
+                        ],
+                        correct: 0, // Index A
+                        pembahasan: 'Tombol F5 adalah shortcut khusus untuk memanggil panel Brush Settings terperinci.'
+                    },
+                    {
+                        id: 9,
+                        q: 'Saat bekerja dengan Layer Mask, warna kuas Brush Tool yang digunakan untuk MENGHAPUS/MENYEMBUNYIKAN area objek adalah warna...',
+                        options: [
+                            'A. Putih',
+                            'B. Hitam',
+                            'C. Merah',
+                            'D. Biru Cyan',
+                            'E. Transparan'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Prinsip Layer Mask: Warna Hitam menyembunyikan (hide), warna Putih menampilkan (show).'
+                    },
+                    {
+                        id: 10,
+                        q: 'Atribut brush yang mengatur kerapatan interval titik-titik penyusun garis usapan kuas dinamakan...',
+                        options: [
+                            'A. Spacing',
+                            'B. Angle',
+                            'C. Roundness',
+                            'D. Scatter',
+                            'E. Fade'
+                        ],
+                        correct: 0, // Index A
+                        pembahasan: 'Spacing menentukan jarak persentase antar-jejak ujung kuas. Jika spacing dibuat besar, usapan kuas tampak seperti deretan titik terpisah.'
+                    }
+                ]
+            },
+            {
+                id: 'pen-tool',
+                name: 'Pen Tool & Shape Tools',
+                shortcut: 'P / U',
+                category: 'Vektor & Seleksi Presisi Tinggi',
+                icon: 'fa-solid fa-pen-nib',
+                tagline: 'Membuat jalur (path) vektor presisi tinggi, kurva Bezier murni, dan bentuk grafis geometris.',
+                materi: {
+                    fungsi: 'Pen Tool (P) digunakan untuk membuat jalur vektor (Path) atau bentuk (Shape) yang didefinisikan oleh titik jangkar (Anchor Points) dan garis pengarah (Direction Handles). Menghasilkan garis potong yang paling bersih dan presisi.',
+                    konsepDKV: 'Pen Tool adalah "Raja Seleksi" dan fondasi pembuatan logo, tipografi kustom, vektor ilustrasi, serta clipping path profesional. Tidak seperti seleksi piksel, jalur Pen Tool berbasis matematis sehingga tidak akan pecah saat diperbesar.',
+                    fiturUtama: [
+                        { nama: 'Anchor Points & Handles', ket: 'Anchor point menandai sudut/perubahan arah, sedangkan handle menentukan derajat dan kedalaman kelengkungan kurva Bezier.' },
+                        { nama: 'Mode Path vs Shape', ket: 'Mode Path membuat garis pandu matematis tanpa warna tinta. Mode Shape langsung membuat layer vektor berisi warna Fill dan Stroke.' },
+                        { nama: 'Convert Point Tool', ket: 'Sub-tool untuk mengubah titik anchor sudut tajam menjadi kurva melengkung lembut atau sebaliknya.' },
+                        { nama: 'Convert Path to Selection', ket: 'Mengubah jalur jalur Pen Tool menjadi garis seleksi piksel aktif (Shortcut: Ctrl + Enter).' }
+                    ],
+                    tipsPro: 'Tahan tombol Ctrl secara sementara saat mengoperasikan Pen Tool untuk menggunakan Direct Selection Tool (menggeser titik anchor tertentu), atau tahan Alt untuk mematahkan salah satu gagang handle kurva!'
+                },
+                questions: [
+                    {
+                        id: 1,
+                        q: 'Sifat utama dari garis jalur (Path) yang dibuat menggunakan Pen Tool adalah...',
+                        options: [
+                            'A. Berbasis piksel raster yang langsung pecah jika diperbesar',
+                            'B. Berbasis vektor matematis sehingga dapat diperbesar tanpa kehilangan kualitas',
+                            'C. Otomatis menghilang setelah 5 detik',
+                            'D. Hanya bisa diisi dengan warna hitam',
+                            'E. Tidak dapat diubah bentuk kurvanya setelah dibuat'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Pen Tool menghasilkan garis jalur vektor terukur secara matematis (resolution independent).'
+                    },
+                    {
+                        id: 2,
+                        q: 'Kombinasi shortcut keyboard cepat untuk mengubah jalur Path Pen Tool menjadi area seleksi piksel (marching ants) adalah...',
+                        options: [
+                            'A. Ctrl + Enter',
+                            'B. Ctrl + Shift + D',
+                            'C. Alt + Delete',
+                            'D. Ctrl + Alt + G',
+                            'E. Shift + F5'
+                        ],
+                        correct: 0, // Index A
+                        pembahasan: 'Ctrl + Enter (Windows) / Cmd + Return (Mac) adalah pintasan langsung mengonversi Path menjadi Selection.'
+                    },
+                    {
+                        id: 3,
+                        q: 'Gagang penyeimbang yang muncul keluar dari titik Anchor Point saat pen tarik mouse untuk mengatur kelengkungan dinamakan...',
+                        options: [
+                            'A. Bounding Box',
+                            'B. Direction Handles',
+                            'C. Marquee Box',
+                            'D. Pixel Grid',
+                            'E. Tolerance Bar'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Direction Handles (gagang pengarah) mengatur sudut kemiringan dan panjang kelengkungan kurva Bezier.'
+                    },
+                    {
+                        id: 4,
+                        q: 'Guna mematahkan salah satu arah gagang Handle saat menggambar sudut tajam dengan Pen Tool, desainer DKV harus menahan tombol...',
+                        options: [
+                            'A. Shift',
+                            'B. Alt (Windows) / Option (Mac)',
+                            'C. Tab',
+                            'D. Ctrl',
+                            'E. Spacebar'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Menahan Alt beralih ke Convert Point Tool yang berfungsi mematahkan simetri handle untuk membuat sudut tajam.'
+                    },
+                    {
+                        id: 5,
+                        q: 'Sub-tool dalam kelompok Pen Tool yang berfungsi khusus untuk menghapus titik jangkar yang tidak diperlukan pada jalur vektor adalah...',
+                        options: [
+                            'A. Freeform Pen Tool',
+                            'B. Delete Anchor Point Tool',
+                            'C. Curvature Pen Tool',
+                            'D. Path Selection Tool',
+                            'E. Direct Selection Tool'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Delete Anchor Point Tool digunakan untuk mengurangi/menghapus titik jangkar tanpa memutus kontinuitas garis path.'
+                    },
+                    {
+                        id: 6,
+                        q: 'Perbedaan fungsi utama antara Path Selection Tool (panah hitam) dan Direct Selection Tool (panah putih) adalah...',
+                        options: [
+                            'A. Panah hitam untuk menghapus, panah putih untuk mewarnai',
+                            'B. Panah hitam memilih seluruh komponen path sekaligus, panah putih memilih titik anchor atau segmen individual tertentu',
+                            'C. Panah hitam khusus gambar raster, panah putih khusus teks',
+                            'D. Panah hitam untuk file CMYK, panah putih untuk file RGB',
+                            'E. Tidak ada bedanya, kedua ikon hanya variasi estetika visual'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Path Selection (Hitam) memindahkan keseluruhan struktur path, sedangkan Direct Selection (Putih) memanipulasi titik anchor/handle terpisah.'
+                    },
+                    {
+                        id: 7,
+                        q: 'Fitur pada Options Bar Pen Tool yang membuat jalur Pen Tool langsung membentuk layer shape berisi isi warna (Fill) dan garis tepi (Stroke) adalah mode...',
+                        options: [
+                            'A. Path',
+                            'B. Pixels',
+                            'C. Shape',
+                            'D. Mask',
+                            'E. Smart Filter'
+                        ],
+                        correct: 2, // Index C
+                        pembahasan: 'Mode Shape secara otomatis membuat Vector Shape Layer lengkap dengan properti atribut Fill dan Stroke.'
+                    },
+                    {
+                        id: 8,
+                        q: 'Varian Pen Tool intuitif yang memungkinkan pembuatan garis melengkung lembut secara otomatis tanpa perlu menyeret handle secara manual disebut...',
+                        options: [
+                            'A. Magnetic Pen Tool',
+                            'B. Curvature Pen Tool',
+                            'C. Isometric Pen Tool',
+                            'D. Eraser Pen Tool',
+                            'E. Lasso Pen Tool'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Curvature Pen Tool menyederhanakan pembuatan kurva dengan memprediksi dan melengkungkan garis secara alami antar titik.'
+                    },
+                    {
+                        id: 9,
+                        q: 'Mengapa industri percetakan dan packaging DKV sangat menyukai teknik pemotongan gambar berbasis Clipping Path (Pen Tool)?',
+                        options: [
+                            'A. Karena file yang dihasilkan ukurannya selalu di bawah 1 KB',
+                            'B. Karena tepi potongannya sangat halus, tajam, profesional, dan dapat diperbesar tanpa terpengaruh pikselasi',
+                            'C. Karena proses pembuatannya paling cepat dibanding alat apapun',
+                            'D. Karena secara otomatis mewarnai foto menjadi berkilau',
+                            'E. Karena tidak memerlukan perangkat komputer yang canggih'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Clipping Path menghasilkan potongan vektor yang sangat presisi, tajam, dan tidak bergantung pada resolusi piksel latar.'
+                    },
+                    {
+                        id: 10,
+                        q: 'Saat membuat bentuk persegi menggunakan Rectangle Tool (U), cara membulatkan keempat sudutnya (Rounded Corners) adalah dengan mengatur nilai...',
+                        options: [
+                            'A. Tolerance',
+                            'B. Feather',
+                            'C. Corner Radius (r)',
+                            'D. Anti-alias',
+                            'E. Opacity'
+                        ],
+                        correct: 2, // Index C
+                        pembahasan: 'Parameter Radius (r) menentukan tingkat kelengkungan sudut persegi dalam satuan piksel.'
+                    }
+                ]
+            },
+            {
+                id: 'stamp-tools',
+                name: 'Clone Stamp & Pattern Stamp Tool',
+                shortcut: 'S',
+                category: 'Retouching & Duplikasi',
+                icon: 'fa-solid fa-stamp',
+                tagline: 'Menduplikat sampel piksel dari satu area ke area lain untuk retouching, koreksi foto, dan lukisan pola.',
+                materi: {
+                    fungsi: 'Clone Stamp Tool (S) digunakan untuk menyalin/memplagiasi piksel dari titik sampel awal (Alt+Klik) ke bagian lain pada kanvas. Pattern Stamp Tool melukiskan pola tekstur terulang pada area kerja.',
+                    konsepDKV: 'Sangat krusial dalam photo retouching, manipulasi gambar komersial, merapikan gangguan latar belakang (clean up background), menghilangkan objek yang tidak diinginkan, serta restorasi foto sejarah/lama yang rusak.',
+                    fiturUtama: [
+                        { nama: 'Sample (Current / Current & Below / All Layers)', ket: 'Menentukan layer sumber mana yang akan diambil sampel pikselnya saat Alt+Klik.' },
+                        { nama: 'Aligned', ket: 'Jika dicentang, titik sampel sumber akan bergerak sejajar mengikuti pergeseran kursor kuas secara konstan.' },
+                        { nama: 'Opacity & Flow', ket: 'Mengatur transparansi dan kecepatan penumpukan duplikasi piksel yang ditimpakan ke kanvas.' },
+                        { nama: 'Pattern Picker (Pattern Stamp)', ket: 'Memilih pola tekstur visual terulang yang akan dilukiskan di kanvas.' }
+                    ],
+                    tipsPro: 'Selalu buat Layer Baru (Empty Layer) di atas foto asli dan atur opsi Sample ke "Current & Below". Hal ini menerapkan prinsip Non-Destructive Editing sehingga foto asli tetap aman dan dapat diedit/dihapus kapan saja!'
+                },
+                questions: [
+                    {
+                        id: 1,
+                        q: 'Shortcut keyboard standar untuk mengakses Clone Stamp Tool di Adobe Photoshop adalah...',
+                        options: [
+                            'A. S',
+                            'B. C',
+                            'C. E',
+                            'D. J',
+                            'E. V'
+                        ],
+                        correct: 0, // Index A
+                        pembahasan: 'Tombol S adalah shortcut keyboard default untuk memanggil Clone Stamp Tool & Pattern Stamp Tool.'
+                    },
+                    {
+                        id: 2,
+                        q: 'Langkah awal yang WAJIB dilakukan sebelum melukiskan piksel duplikat menggunakan Clone Stamp Tool adalah...',
+                        options: [
+                            'A. Menahan tombol Shift sambil menekan Enter',
+                            'B. Menahan tombol Alt (Windows) / Option (Mac) lalu mengklik area titik sampel asal',
+                            'C. Memilih warna foreground di Swatches',
+                            'D. Mengunci seluruh layer gambar',
+                            'E. Mengubah mode warna dokumen menjadi Grayscale'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Tombol Alt/Option + Klik digunakan untuk menetapkan target sampel piksel sumber (source point) yang akan diduplikasi.'
+                    },
+                    {
+                        id: 3,
+                        q: 'Mengapa desainer DKV sangat disarankan membuat layer kosong baru dan memilih opsi Sample: "Current & Below" saat retouching foto?',
+                        options: [
+                            'A. Agar ukuran file foto menjadi jauh lebih kecil',
+                            'B. Agar proses rendering menjadi 10x lebih cepat',
+                            'C. Menerapkan teknik non-destructive editing sehingga foto original asli tidak rusak',
+                            'D. Menghapus warna latar belakang foto secara otomatis',
+                            'E. Mengonversi foto menjadi objek vektor SVG'
+                        ],
+                        correct: 2, // Index C
+                        pembahasan: 'Menduplikat pada layer kosong baru menjaga foto asli tetap aman dan tidak mengalami kerusakan piksel secara permanen (Non-Destructive).'
+                    },
+                    {
+                        id: 4,
+                        q: 'Jika opsi "Aligned" pada Options Bar Clone Stamp Tool DICENTANG, apa yang akan terjadi ketika Anda melepas klik mouse dan mulai mengusap di tempat lain?',
+                        options: [
+                            'A. Titik sampel asal akan selalu kembali ke posisi Alt+Klik pertama',
+                            'B. Titik sampel asal akan mengikuti pergeseran posisi kursor kuas secara konstan dan sejajar',
+                            'C. Clone stamp akan berhenti berfungsi',
+                            'D. Warna sampel akan otomatis dibalik (Invert Color)',
+                            'E. Piksel yang disalin akan menjadi transparan 100%'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Opsi Aligned membuat jarak offset antara titik sampel dan titik polesan tetap sejajar walau usapan kuas dilepas dan dimulai ulang.'
+                    },
+                    {
+                        id: 5,
+                        q: 'Fitur khusus pada Pattern Stamp Tool yang memungkinkan penggunaan tekstur pola terulang sebagai bahan usapan kuas dinamakan...',
+                        options: [
+                            'A. Pattern Picker',
+                            'B. Content-Aware Fill',
+                            'C. Color Swatch Picker',
+                            'D. Gradient Slider',
+                            'E. Tolerance Wheel'
+                        ],
+                        correct: 0, // Index A
+                        pembahasan: 'Pattern Picker di Options Bar berguna untuk memilih preset pola tekstur terulang yang akan dilukiskan.'
+                    },
+                    {
+                        id: 6,
+                        q: 'Panel terperinci di Photoshop yang dapat dibuka untuk merotasi, membalik (flip horizontal/vertical), atau mengubah skala ukuran sampel Clone Stamp adalah...',
+                        options: [
+                            'A. Character Panel',
+                            'B. Clone Source Panel',
+                            'C. History Panel',
+                            'D. Navigator Panel',
+                            'E. Brush Preset Manager'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Panel Clone Source menyediakan kontrol tingkat lanjut seperti Scaling, Rotation, Offset, dan Multiple Sample Sources.'
+                    },
+                    {
+                        id: 7,
+                        q: 'Perbedaan utama antara Clone Stamp Tool dengan Healing Brush Tool adalah...',
+                        options: [
+                            'A. Clone Stamp menyalin piksel beserta warna dan teksturnya secara mutlak tanpa penyesuaian otomatis, sedangkan Healing Brush menyesuaikan pencahayaan/tonal sekitar',
+                            'B. Clone Stamp khusus vektor, Healing Brush khusus bitmap',
+                            'C. Clone Stamp hanya untuk warna hitam putih',
+                            'D. Healing Brush tidak memerlukan sampel Alt+Klik',
+                            'E. Clone Stamp tidak dapat diubah ukuran kuasnya'
+                        ],
+                        correct: 0, // Index A
+                        pembahasan: 'Clone Stamp menjiplak piksel 100% presisi, sedangkan Healing Brush memadukan tekstur sampel dengan pencahayaan dan warna tujuan.'
+                    },
+                    {
+                        id: 8,
+                        q: 'Saat merestorasi foto tua yang memiliki goresan robek, Clone Stamp Tool paling efektif digunakan untuk...',
+                        options: [
+                            'A. Mengganti jenis huruf tulisan di foto',
+                            'B. Menutupi area robek dengan menyalin sampel tekstur kulit/pakaian yang masih utuh di sekitarnya',
+                            'C. Mengubah mode warna dari RGB ke CMYK',
+                            'D. Memotong tepi kertas foto secara otomatis',
+                            'E. Menambahkan efek pencahayaan sinar matahari (lens flare)'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Clone Stamp sangat andal mengambil sampel area baik di sekitar goresan untuk menutupi bagian foto yang rusak.'
+                    },
+                    {
+                        id: 9,
+                        q: 'Kombinasi tombol untuk membesarkan atau mengecilkan diameter kuas Clone Stamp Tool di keyboard adalah...',
+                        options: [
+                            'A. Tombol [ dan ]',
+                            'B. Tombol Ctrl + Alt',
+                            'C. Tombol Arrow Up dan Down',
+                            'D. Tombol F1 dan F2',
+                            'E. Tombol Tab dan Caps Lock'
+                        ],
+                        correct: 0, // Index A
+                        pembahasan: 'Pintasan universal ukuran brush di Photoshop adalah kurung siku kiri [ (mengecilkan) dan kurung siku kanan ] (memperbesar).'
+                    },
+                    {
+                        id: 10,
+                        q: 'Opsi "Opacity" pada Options Bar Clone Stamp Tool berfungsi untuk...',
+                        options: [
+                            'A. Mengatur kecepatan aliran tinta kuas',
+                            'B. Mengatur tingkat transparansi hasil duplikasi piksel yang ditimpakan',
+                            'C. Mengatur tingkat kelembutan sudut kuas',
+                            'D. Menghapus latar belakang secara otomatis',
+                            'E. Mengunci pergerakan kursor mouse secara vertikal'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Opacity menentukan sejauh mana kepekatan hasil jiplakan Clone Stamp pada area target.'
+                    }
+                ]
+            },
+            {
+                id: 'eraser-magic-eraser',
+                name: 'Eraser & Magic Eraser Tool',
+                shortcut: 'E',
+                category: 'Penghapusan & Pengisolasian Piksel',
+                icon: 'fa-solid fa-eraser',
+                tagline: 'Menghapus piksel menjadi transparan secara manual maupun otomatis berdasarkan kemiripan warna.',
+                materi: {
+                    fungsi: 'Eraser Tool (E) menghapus piksel pada layer biasa menjadi transparan (atau menjadi warna background jika layer terkunci). Background Eraser mengecat penghapusan pada tepi subjek secara cerdas. Magic Eraser Tool menghapus seluruh area bernuansa warna serupa secara otomatis hanya dalam satu kali klik.',
+                    konsepDKV: 'Digunakan dalam pengerjaan cepat isolasi gambar, membuang background polos, membersihkan sisa-sisa piksel di sekitar objek terpotong, dan retouching awal komposisi visual.',
+                    fiturUtama: [
+                        { nama: 'Tolerance (Magic Eraser)', ket: 'Mengatur rentang kemiripan warna yang akan dihapus otomatis (nilai 0-255).' },
+                        { nama: 'Contiguous', ket: 'Jika dicentang, penghapusan hanya berlaku untuk piksel bersentuhan yang saling terhubung.' },
+                        { nama: 'Limits (Background Eraser)', ket: 'Pengaturan batas deteksi tepi penghapusan (Discontiguous, Contiguous, atau Find Edges).' },
+                        { nama: 'Erase to History', ket: 'Opsi pada Eraser biasa untuk mengembalikan area yang pernah terhapus berdasarkan History State sebelumnya.' }
+                    ],
+                    tipsPro: 'Meskipun Eraser Tool cepat digunakan, dalam workflow profesional DKV lebih disarankan memakai Layer Mask daripada Eraser permanen. Namun jika butuh menghapus background warna solid instan tanpa kerumitan, Magic Eraser Tool adalah solusinya!'
+                },
+                questions: [
+                    {
+                        id: 1,
+                        q: 'Shortcut keyboard cepat untuk mengaktifkan kelompok alat Eraser Tool dan Magic Eraser Tool di Photoshop adalah...',
+                        options: [
+                            'A. M',
+                            'B. L',
+                            'C. E',
+                            'D. B',
+                            'E. G'
+                        ],
+                        correct: 2, // Index C
+                        pembahasan: 'Tombol E adalah shortcut keyboard untuk mengakses Eraser Tool, Background Eraser, dan Magic Eraser Tool.'
+                    },
+                    {
+                        id: 2,
+                        q: 'Apa yang akan terjadi jika Anda menggunakan Eraser Tool biasa pada layer bertuliskan "Background" yang dalam kondisi terkunci (locked icon)?',
+                        options: [
+                            'A. Area yang diusap akan menjadi transparan bening (grid catur)',
+                            'B. Area yang diusap akan terisi dengan warna Background (Background Color) yang sedang aktif',
+                            'C. Photoshop akan memunculkan pesan error dan tidak bisa menghapus',
+                            'D. Layer akan otomatis terhapus seluruhnya',
+                            'E. Gambar akan otomatis berubah format menjadi PNG'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Pada layer Background terkunci, Eraser tidak dapat membuat transparansi melainkan mengganti piksel dengan warna Background swatch.'
+                    },
+                    {
+                        id: 3,
+                        q: 'Bagaimana cara kerja Magic Eraser Tool saat diklik pada salah satu bagian warna kanvas?',
+                        options: [
+                            'A. Menghapus seluruh layer tanpa sisa',
+                            'B. Menghapus seluruh piksel yang memiliki rentang warna sama/serupa di area tersebut menjadi transparan dalam 1 kali klik',
+                            'C. Mengubah warna piksel menjadi hitam putih',
+                            'D. Membuat garis seleksi vektor path',
+                            'E. Menyalin warna ke Swatches Palette'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Magic Eraser secara otomatis mendeteksi kemiripan warna titik klik dan langsung menghapus piksel tersebut menjadi transparan.'
+                    },
+                    {
+                        id: 4,
+                        q: 'Jika nilai "Tolerance" pada Magic Eraser Tool dinaikkan dari 15 menjadi 90, dampak langsungnya adalah...',
+                        options: [
+                            'A. Proses penghapusan menjadi jauh lebih lambat',
+                            'B. Rentang variasi warna yang ikut terhapus menjadi semakin luas',
+                            'C. Magic Eraser tidak dapat digunakan lagi',
+                            'D. Hasil penghapusan menjadi berbentuk kotak presisi',
+                            'E. Ukuran kuas penghapus mengecil otomatis'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Semakin tinggi nilai Tolerance, semakin luas variasi spektrum warna terang/gelap yang dianggap sama dan ikut terhapus.'
+                    },
+                    {
+                        id: 5,
+                        q: 'Pengaturan "Contiguous" yang dicentang pada Magic Eraser Tool memastikan bahwa...',
+                        options: [
+                            'A. Penghapusan warna hanya berlaku untuk piksel bersentuhan yang saling terhubung',
+                            'B. Seluruh warna serupa di seluruh dokumen akan terhapus walau terpisah objek lain',
+                            'C. Penghapusan hanya berlaku pada layer vektor',
+                            'D. Hasil penghapusan akan diberi efek bayangan',
+                            'E. Transparansi penghapusan dibatasi 50%'
+                        ],
+                        correct: 0, // Index A
+                        pembahasan: 'Opsi Contiguous membatasi cakupan penghapusan hanya pada wilayah warna yang saling berdampingan secara terhubung.'
+                    },
+                    {
+                        id: 6,
+                        q: 'Tool dalam kelompok Eraser yang secara khusus dirancang untuk menghapus latar belakang berdasarkan sampel warna di tengah silang kursor sambil menjaga tepi objek tetap utuh adalah...',
+                        options: [
+                            'A. Standard Eraser Tool',
+                            'B. Background Eraser Tool',
+                            'C. History Brush Tool',
+                            'D. Pencil Tool',
+                            'E. Crop Tool'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Background Eraser Tool mengecat penghapusan dengan mengisolasi tepi objek berdasarkan titik tengah kursor.'
+                    },
+                    {
+                        id: 7,
+                        q: 'Opsi "Erase to History" pada Options Bar Eraser Tool berfungsi untuk...',
+                        options: [
+                            'A. Menghapus riwayat History pembatalan',
+                            'B. Mengembalikan piksel yang terhapus kembali ke bentuk/kondisi keadaan History sebelumnya seperti kuas pemulih',
+                            'C. Menghapus seluruh dokumen secara permanen',
+                            'D. Menyimpan file gambar ke harddisk secara otomatis',
+                            'E. Mengunci History State'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Erase to History mengubah fungsi eraser menjadi memulihkan piksel dari state History terdaftar.'
+                    },
+                    {
+                        id: 8,
+                        q: 'Mengapa dalam standar kerja DKV profesional, penggunaan Layer Mask lebih dianjurkan daripada menghapus piksel secara langsung dengan Eraser Tool?',
+                        options: [
+                            'A. Karena Eraser Tool merusak piksel secara permanen (destructive), sedangkan Layer Mask dapat dikembalikan/diedit ulang kapan saja (non-destructive)',
+                            'B. Karena Eraser Tool menghasilkan file yang jauh lebih besar',
+                            'C. Karena Layer Mask tidak bisa digunakan pada foto berwarna',
+                            'D. Karena Eraser Tool tidak bisa diatur ukurannya',
+                            'E. Karena Layer Mask hanya ada di komputer Mac'
+                        ],
+                        correct: 0, // Index A
+                        pembahasan: 'Eraser bersifat Destructive Editing (menghapus permanen piksel), sedangkan Layer Mask bersifat Non-Destructive Editing.'
+                    },
+                    {
+                        id: 9,
+                        q: 'Saat mengisolasi objek produk bermotor berlatar putih polos, Magic Eraser Tool sangat efisien digunakan jika...',
+                        options: [
+                            'A. Background produk berwarna-warni sangat kompleks',
+                            'B. Background produk berupa warna putih polos yang berkontras tegas dengan warna objek produk',
+                            'C. Objek produk transparan seperti kaca bening',
+                            'D. Objek produk memiliki banyak helai rambut melayang',
+                            'E. Gambar berformat vektor EPS'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Background polos tunggal dengan kontras tajam sangat ideal dihapus instan dalam satu klik menggunakan Magic Eraser Tool.'
+                    },
+                    {
+                        id: 10,
+                        q: 'Opsi "Opacity" pada Eraser Tool biasa yang diturunkan menjadi 50% akan mengakibatkan penghapusan piksel menjadi...',
+                        options: [
+                            'A. Terhapus total hingga transparan 100%',
+                            'B. Terhapus sebagian secara semi-transparan (50% transparansi)',
+                            'C. Tidak menghapus piksel sama sekali',
+                            'D. Berubah menjadi warna merah legam',
+                            'E. Mengubah bentuk kuas menjadi persegi'
+                        ],
+                        correct: 1, // Index B
+                        pembahasan: 'Menurunkan Opacity pada Eraser menghasilkan tingkat penghapusan bertahap / semi-transparan.'
+                    }
+                ]
+            }
+        ];
+
+        /* STATE MANAGEMENT */
+        let currentToolIndex = 0;
+        let userAnswers = {}; // Format: { toolId: { qIndex: answerIndex } }
+        let completedQuizzes = {}; // Format: { toolId: score }
+
+        // Initialize App on Load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProgressFromStorage();
+            renderToolsGrid();
+            updateGlobalProgress();
+        });
+
+        // Load progress from localStorage
+        function loadProgressFromStorage() {
+            const savedAnswers = localStorage.getItem('dkv_ps_answers');
+            const savedScores = localStorage.getItem('dkv_ps_scores');
+            if (savedAnswers) userAnswers = JSON.parse(savedAnswers);
+            if (savedScores) completedQuizzes = JSON.parse(savedScores);
+        }
+
+        // Save progress to localStorage
+        function saveProgressToStorage() {
+            localStorage.setItem('dkv_ps_answers', JSON.stringify(userAnswers));
+            localStorage.setItem('dkv_ps_scores', JSON.stringify(completedQuizzes));
+            updateGlobalProgress();
+        }
+
+        // Calculate and update top global progress bar
+        function updateGlobalProgress() {
+            const totalTools = toolsDatabase.length;
+            const finishedCount = Object.keys(completedQuizzes).length;
+            const percentage = Math.round((finishedCount / totalTools) * 100);
+            
+            document.getElementById('globalProgressText').textContent = `${percentage}% (${finishedCount}/${totalTools} Tool Selesai)`;
+        }
+
+        // Render Grid of Tool Cards on Dashboard
+        function renderToolsGrid(filterText = '') {
+            const grid = document.getElementById('toolsGrid');
+            grid.innerHTML = '';
+
+            const filteredTools = toolsDatabase.filter(tool => {
+                const search = filterText.toLowerCase();
+                return tool.name.toLowerCase().includes(search) ||
+                       tool.category.toLowerCase().includes(search) ||
+                       tool.shortcut.toLowerCase().includes(search) ||
+                       tool.tagline.toLowerCase().includes(search);
+            });
+
+            document.getElementById('toolCountBadge').textContent = `${filteredTools.length} Tools Tersedia`;
+
+            if (filteredTools.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full py-12 text-center text-slate-500">
+                        <i class="fa-solid fa-folder-open text-4xl mb-3"></i>
+                        <p>Tidak ada tool yang cocok dengan kata kunci pencarian Anda.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filteredTools.forEach((tool) => {
+                const isCompleted = completedQuizzes[tool.id] !== undefined;
+                const score = completedQuizzes[tool.id] || 0;
+
+                const card = document.createElement('div');
+                card.className = 'group bg-slate-900 border border-slate-800 hover:border-blue-500/50 rounded-2xl p-6 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/10 flex flex-col justify-between';
+                
+                card.innerHTML = `
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2.5 py-1 rounded-md">
+                                ${tool.category}
+                            </span>
+                            <span class="bg-slate-800 border border-slate-700 font-mono text-xs font-bold text-slate-300 px-2 py-0.5 rounded">
+                                Key: ${tool.shortcut}
+                            </span>
+                        </div>
+
+                        <div class="flex items-start gap-4 pt-2">
+                            <div class="w-12 h-12 rounded-xl bg-slate-800 border border-slate-700 group-hover:bg-blue-600 group-hover:text-white text-blue-400 flex items-center justify-center text-xl transition-colors duration-300 shrink-0">
+                                <i class="${tool.icon}"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-bold text-white group-hover:text-blue-300 transition-colors">${tool.name}</h4>
+                                <p class="text-xs text-slate-400 mt-1 line-clamp-2">${tool.tagline}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-6 mt-6 border-t border-slate-800/80 flex items-center justify-between">
+                        ${isCompleted 
+                            ? `<div class="flex items-center gap-1.5 text-xs text-emerald-400 font-medium">
+                                <i class="fa-solid fa-circle-check"></i>
+                                <span>Nilai Kuis: ${score}/10</span>
+                               </div>`
+                            : `<div class="text-xs text-slate-500 flex items-center gap-1">
+                                <i class="fa-regular fa-clock"></i> 10 Soal PG
+                               </div>`
+                        }
+                        <button onclick="openToolDetail('${tool.id}')" class="text-xs bg-blue-600 hover:bg-blue-500 text-white font-medium px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 shadow-md shadow-blue-600/20">
+                            <span>Pelajari & Latihan</span>
+                            <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Search Filter
+        function filterTools() {
+            const val = document.getElementById('searchInput').value;
+            renderToolsGrid(val);
+        }
+
+        // Switch between Dashboard View and Detail View
+        function switchView(viewName) {
+            const dash = document.getElementById('dashboardView');
+            const detail = document.getElementById('detailView');
+
+            if (viewName === 'dashboard') {
+                dash.classList.remove('hidden');
+                detail.classList.add('hidden');
+                renderToolsGrid();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                dash.classList.add('hidden');
+                detail.classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // Open Detail Page for Specific Tool
+        function openToolDetail(toolId) {
+            const index = toolsDatabase.findIndex(t => t.id === toolId);
+            if (index === -1) return;
+
+            currentToolIndex = index;
+            const tool = toolsDatabase[currentToolIndex];
+
+            // Render Header Info
+            document.getElementById('detailToolName').textContent = tool.name;
+            document.getElementById('detailToolShortcut').textContent = `Shortcut: ${tool.shortcut}`;
+            document.getElementById('detailToolTagline').textContent = tool.tagline;
+            document.getElementById('detailToolIcon').innerHTML = `<i class="${tool.icon}"></i>`;
+
+            document.getElementById('detailHeaderBadges').innerHTML = `
+                <span class="text-xs bg-blue-500/10 text-blue-400 border border-blue-500/30 px-3 py-1 rounded-full font-medium">${tool.category}</span>
+            `;
+
+            // Render Materi HTML
+            renderMateriSection(tool);
+
+            // Render Quiz Questions
+            renderQuizSection(tool);
+
+            // Check if quiz already completed
+            const isCompleted = completedQuizzes[tool.id] !== undefined;
+            const quizBadge = document.getElementById('quizBadgeCompleted');
+            if (isCompleted) {
+                quizBadge.classList.remove('hidden');
+            } else {
+                quizBadge.classList.add('hidden');
+            }
+
+            // Reset tab to Materi
+            switchDetailTab('materi');
+
+            // Show Detail View
+            switchView('detail');
+        }
+
+        // Render Materi Content
+        function renderMateriSection(tool) {
+            const container = document.getElementById('materiContent');
+            const m = tool.materi;
+
+            container.innerHTML = `
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Column 1 & 2: Main Explanation -->
+                    <div class="lg:col-span-2 space-y-6">
+                        <!-- Card 1: Fungsi Utama -->
+                        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-3">
+                            <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                                <i class="fa-solid fa-circle-info text-blue-400"></i>
+                                Fungsi Utama Tool
+                            </h3>
+                            <p class="text-slate-300 text-sm leading-relaxed">${m.fungsi}</p>
+                        </div>
+
+                        <!-- Card 2: Konsep dalam DKV -->
+                        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-3">
+                            <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                                <i class="fa-solid fa-palette text-indigo-400"></i>
+                                Peran & Penerapan dalam Desain Komunikasi Visual (DKV)
+                            </h3>
+                            <p class="text-slate-300 text-sm leading-relaxed">${m.konsepDKV}</p>
+                        </div>
+
+                        <!-- Card 3: Fitur & Parameter Utama -->
+                        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
+                            <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                                <i class="fa-solid fa-sliders text-cyan-400"></i>
+                                Fitur & Pengaturan Opsi Bar Penting
+                            </h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                ${m.fiturUtama.map(f => `
+                                    <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-4 space-y-1">
+                                        <h4 class="text-xs font-bold text-blue-400 uppercase tracking-wide">${f.nama}</h4>
+                                        <p class="text-xs text-slate-300 leading-relaxed">${f.ket}</p>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Column 3: Pro Tips & Quick Actions -->
+                    <div class="space-y-6">
+                        <div class="bg-gradient-to-br from-blue-950/40 to-slate-900 border border-blue-500/20 rounded-2xl p-6 space-y-4">
+                            <h3 class="text-base font-bold text-white flex items-center gap-2">
+                                <i class="fa-solid fa-lightbulb text-amber-400"></i>
+                                Pro Tips & Workflow DKV
+                            </h3>
+                            <p class="text-xs text-slate-300 leading-relaxed bg-slate-950/50 p-3.5 rounded-xl border border-slate-800">
+                                ${m.tipsPro}
+                            </p>
+                            <div class="pt-2">
+                                <button onclick="switchDetailTab('quiz')" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-pencil"></i>
+                                    <span>Mulai Latihan 10 Soal Tool Ini</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Render Quiz Questions
+        function renderQuizSection(tool) {
+            const container = document.getElementById('questionsContainer');
+            container.innerHTML = '';
+
+            const toolAnswers = userAnswers[tool.id] || {};
+            const isSubmitted = completedQuizzes[tool.id] !== undefined;
+
+            // Render Score Banner if submitted
+            const scoreBanner = document.getElementById('quizScoreBanner');
+            if (isSubmitted) {
+                scoreBanner.classList.remove('hidden');
+                const score = completedQuizzes[tool.id];
+                document.getElementById('quizScoreDisplay').textContent = `${score} / 10`;
+                
+                let feedback = "Bagus sekali! Pemahaman Anda terhadap tool ini sudah sangat baik.";
+                if (score < 6) feedback = "Perlu banyak membaca ulang materi di tab sebelah agar lebih memahami fungsi tool ini.";
+                else if (score < 8) feedback = "Cukup baik! Tingkatkan lagi pemahaman detail parameter Opsi Bar.";
+                
+                document.getElementById('quizScoreFeedback').textContent = feedback;
+            } else {
+                scoreBanner.classList.add('hidden');
+            }
+
+            tool.questions.forEach((q, qIndex) => {
+                const selectedOption = toolAnswers[qIndex];
+
+                const qCard = document.createElement('div');
+                qCard.className = 'bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4';
+
+                let optionsHTML = '';
+                q.options.forEach((optText, optIndex) => {
+                    let btnStyle = 'border-slate-800 hover:border-slate-700 bg-slate-950 text-slate-300';
+                    let iconHTML = `<span class="w-6 h-6 rounded-full border border-slate-700 text-[11px] font-bold flex items-center justify-center text-slate-400 group-hover:border-blue-400 group-hover:text-blue-400">${String.fromCharCode(65 + optIndex)}</span>`;
+
+                    if (selectedOption === optIndex) {
+                        btnStyle = 'border-blue-500 bg-blue-500/10 text-white font-medium';
+                        iconHTML = `<span class="w-6 h-6 rounded-full bg-blue-500 text-[11px] font-bold flex items-center justify-center text-white">${String.fromCharCode(65 + optIndex)}</span>`;
+                    }
+
+                    // If quiz is already submitted, highlight correct/incorrect
+                    if (isSubmitted) {
+                        if (optIndex === q.correct) {
+                            btnStyle = 'border-emerald-500 bg-emerald-500/10 text-emerald-300 font-medium';
+                            iconHTML = `<span class="w-6 h-6 rounded-full bg-emerald-500 text-[11px] font-bold flex items-center justify-center text-white"><i class="fa-solid fa-check text-[10px]"></i></span>`;
+                        } else if (selectedOption === optIndex && selectedOption !== q.correct) {
+                            btnStyle = 'border-rose-500 bg-rose-500/10 text-rose-300';
+                            iconHTML = `<span class="w-6 h-6 rounded-full bg-rose-500 text-[11px] font-bold flex items-center justify-center text-white"><i class="fa-solid fa-xmark text-[10px]"></i></span>`;
+                        }
+                    }
+
+                    optionsHTML += `
+                        <button type="button" 
+                                ${isSubmitted ? 'disabled' : ''} 
+                                onclick="selectOption('${tool.id}', ${qIndex}, ${optIndex})" 
+                                class="w-full text-left p-3.5 rounded-xl border ${btnStyle} transition flex items-start gap-3 group text-xs sm:text-sm">
+                            ${iconHTML}
+                            <span class="flex-1 mt-0.5">${optText}</span>
+                        </button>
+                    `;
+                });
+
+                let explanationHTML = '';
+                if (isSubmitted) {
+                    explanationHTML = `
+                        <div class="mt-4 p-3.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-300 space-y-1">
+                            <span class="font-bold text-blue-400 block"><i class="fa-solid fa-lightbulb mr-1"></i> Pembahasan Soal:</span>
+                            <p>${q.pembahasan}</p>
+                        </div>
+                    `;
+                }
+
+                qCard.innerHTML = `
+                    <div class="flex items-start justify-between gap-4">
+                        <h4 class="text-sm sm:text-base font-semibold text-white leading-relaxed">
+                            <span class="text-blue-400 font-bold mr-1">Soal ${qIndex + 1}.</span> ${q.q}
+                        </h4>
+                    </div>
+                    <div class="space-y-2.5 pt-2">
+                        ${optionsHTML}
+                    </div>
+                    ${explanationHTML}
+                `;
+
+                container.appendChild(qCard);
+            });
+
+            // Toggle submit button visibility
+            const submitBtn = document.getElementById('btnSubmitQuiz');
+            if (isSubmitted) {
+                submitBtn.classList.add('hidden');
+            } else {
+                submitBtn.classList.remove('hidden');
+            }
+        }
+
+        // Handle Option Click
+        function selectOption(toolId, qIndex, optIndex) {
+            if (!userAnswers[toolId]) {
+                userAnswers[toolId] = {};
+            }
+            userAnswers[toolId][qIndex] = optIndex;
+            saveProgressToStorage();
+
+            const tool = toolsDatabase[currentToolIndex];
+            renderQuizSection(tool);
+        }
+
+        // Submit Current Quiz & Calculate Score
+        function submitCurrentQuiz() {
+            const tool = toolsDatabase[currentToolIndex];
+            const toolAns = userAnswers[tool.id] || {};
+
+            // Check if all 10 questions are answered
+            const answeredCount = Object.keys(toolAns).length;
+            if (answeredCount < 10) {
+                const confirmSubmit = confirm(`Anda baru menjawab ${answeredCount} dari 10 soal. Yakin ingin mengirim jawaban sekarang?`);
+                if (!confirmSubmit) return;
+            }
+
+            // Calculate Score
+            let correctCount = 0;
+            tool.questions.forEach((q, idx) => {
+                if (toolAns[idx] === q.correct) {
+                    correctCount++;
+                }
+            });
+
+            // Store score
+            completedQuizzes[tool.id] = correctCount;
+            saveProgressToStorage();
+
+            // Re-render
+            document.getElementById('quizBadgeCompleted').classList.remove('hidden');
+            renderQuizSection(tool);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Reset Quiz to try again
+        function resetCurrentQuiz() {
+            const tool = toolsDatabase[currentToolIndex];
+            delete completedQuizzes[tool.id];
+            delete userAnswers[tool.id];
+
+            saveProgressToStorage();
+            document.getElementById('quizBadgeCompleted').classList.add('hidden');
+            renderQuizSection(tool);
+        }
+
+        // Switch Tab between Materi and Quiz
+        function switchDetailTab(tabName) {
+            const materiContent = document.getElementById('materiContent');
+            const quizContent = document.getElementById('quizContent');
+            const btnMateri = document.getElementById('tabBtnMateri');
+            const btnQuiz = document.getElementById('tabBtnQuiz');
+
+            if (tabName === 'materi') {
+                materiContent.classList.remove('hidden');
+                quizContent.classList.add('hidden');
+
+                btnMateri.className = "pb-3 border-b-2 border-blue-500 font-semibold text-sm text-blue-400 flex items-center gap-2";
+                btnQuiz.className = "pb-3 border-b-2 border-transparent font-semibold text-sm text-slate-400 hover:text-slate-200 flex items-center gap-2";
+            } else {
+                materiContent.classList.add('hidden');
+                quizContent.classList.remove('hidden');
+
+                btnQuiz.className = "pb-3 border-b-2 border-blue-500 font-semibold text-sm text-blue-400 flex items-center gap-2";
+                btnMateri.className = "pb-3 border-b-2 border-transparent font-semibold text-sm text-slate-400 hover:text-slate-200 flex items-center gap-2";
+            }
+        }
+    </script>
+</body>
+</html>
