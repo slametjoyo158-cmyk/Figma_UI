@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asesmen Awal DKV - Mini Quest Design Brief</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tone.js for Web Audio Synthesizer -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#0284c7',
+                            600: '#0369a1',
+                            700: '#075985',
+                            900: '#0c4a6e',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            color: #f8fafc;
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.75);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .pop-animation {
+            animation: pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes pop {
+            0% { transform: scale(0.9); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="flex flex-col justify-between min-h-screen selection:bg-brand-500 selection:text-white">
+
+    <!-- Header Navigation Bar -->
+    <header class="w-full border-b border-slate-800 bg-slate-900/60 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-500 flex items-center justify-center font-black text-white shadow-lg shadow-brand-500/20">
+                    <i class="fa-solid fa-gamepad text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-sm sm:text-base text-slate-100">DKV Quest: Diagnostic Review</h1>
+                    <p class="text-[11px] text-slate-400">Review Design Brief & Kesiapan Pitching UI/UX</p>
+                </div>
+            </div>
+            <div id="score-badge" class="hidden items-center space-x-2 bg-slate-800/80 px-3.5 py-1.5 rounded-full border border-slate-700">
+                <i class="fa-solid fa-star text-amber-400 text-xs"></i>
+                <span class="text-xs font-bold text-slate-200">Skor: <span id="current-score-text" class="text-brand-400">0</span></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Dynamic Content Container -->
+    <main class="flex-grow flex items-center justify-center p-4 sm:p-6">
+
+        <!-- 1. WELCOME / START SCREEN -->
+        <section id="start-screen" class="w-full max-w-xl glass-card rounded-3xl p-6 sm:p-8 text-center space-y-6 pop-animation shadow-2xl">
+            <div class="w-20 h-20 bg-brand-500/10 border border-brand-500/30 rounded-3xl flex items-center justify-center mx-auto text-brand-400 text-3xl shadow-inner">
+                <i class="fa-solid fa-rocket"></i>
+            </div>
+
+            <div class="space-y-2">
+                <span class="px-3 py-1 bg-brand-500/20 text-brand-300 text-xs rounded-full font-semibold border border-brand-400/20">
+                    Asesmen Awal DKV (5 Soal Benar / Salah)
+                </span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Review Dasar Design Brief</h2>
+                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-md mx-auto">
+                    Uji pemahamanmu mengenai <span class="text-brand-400 font-semibold">Problem Statement, Objective, Target Audience, Scope & Deliverables,</span> serta <span class="text-brand-400 font-semibold">Design Constraints</span> sebelum masuk ke sesi presentasi UI/UX!
+                </p>
+            </div>
+
+            <div class="bg-slate-800/60 p-4 rounded-2xl border border-slate-700/50 text-left text-xs text-slate-300 space-y-2">
+                <p class="font-bold text-slate-200 flex items-center">
+                    <i class="fa-solid fa-bullhorn text-brand-400 mr-2"></i> Aturan Main Quick Quest:
+                </p>
+                <ul class="list-disc list-inside space-y-1 text-slate-400">
+                    <li>Ada 5 pernyataan cepat berformat <b>BENAR</b> atau <b>SALAH</b>.</li>
+                    <li>Setiap jawaban akan memicu suara narasi ucapan langsung dari komputer/HP Anda!</li>
+                    <li>Selesaikan quest untuk membuka pengantar materi penyampaian ide solusi UI/UX!</li>
+                </ul>
+            </div>
+
+            <button onclick="startQuiz()" class="w-full py-4 bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white font-bold rounded-2xl shadow-lg shadow-brand-600/30 transition-all transform hover:scale-[1.02] flex items-center justify-center space-x-2 text-sm sm:text-base">
+                <span>Mulai Review Quest</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </section>
+
+        <!-- 2. QUIZ SCREEN -->
+        <section id="quiz-screen" class="hidden w-full max-w-xl glass-card rounded-3xl p-6 sm:p-8 space-y-6 pop-animation shadow-2xl relative">
+            
+            <!-- Progress Bar & Indicator -->
+            <div class="space-y-2">
+                <div class="flex items-center justify-between text-xs font-semibold text-slate-400">
+                    <span>Soal <span id="q-step" class="text-brand-400">1</span> dari 5</span>
+                    <span id="q-topic" class="text-slate-300 bg-slate-800 px-2.5 py-0.5 rounded-full border border-slate-700">Topic</span>
+                </div>
+                <div class="w-full bg-slate-800 h-2.5 rounded-full overflow-hidden border border-slate-700">
+                    <div id="progress-bar-fill" class="bg-gradient-to-r from-brand-500 to-indigo-500 h-full w-[20%] transition-all duration-300"></div>
+                </div>
+            </div>
+
+            <!-- Question Card Box -->
+            <div class="bg-slate-800/80 rounded-2xl p-5 border border-slate-700 space-y-3">
+                <div id="q-badge" class="inline-block text-[11px] font-bold text-brand-300 uppercase tracking-wider bg-brand-500/10 px-2.5 py-0.5 rounded-md border border-brand-500/20">
+                    Pernyataan Asesmen
+                </div>
+                <p id="q-text" class="text-sm sm:text-base font-semibold text-slate-100 leading-relaxed">
+                    Memuat pertanyaan...
+                </p>
+            </div>
+
+            <!-- True / False Action Buttons -->
+            <div id="action-buttons" class="grid grid-cols-2 gap-4 pt-2">
+                <button onclick="handleAnswer(true)" class="py-4 bg-emerald-600/20 hover:bg-emerald-600/30 border-2 border-emerald-500/40 hover:border-emerald-500 text-emerald-300 hover:text-white font-bold rounded-2xl transition-all duration-200 flex flex-col items-center justify-center space-y-1 group">
+                    <i class="fa-solid fa-circle-check text-2xl group-hover:scale-110 transition-transform text-emerald-400"></i>
+                    <span class="text-sm">BENAR</span>
+                </button>
+
+                <button onclick="handleAnswer(false)" class="py-4 bg-rose-600/20 hover:bg-rose-600/30 border-2 border-rose-500/40 hover:border-rose-500 text-rose-300 hover:text-white font-bold rounded-2xl transition-all duration-200 flex flex-col items-center justify-center space-y-1 group">
+                    <i class="fa-solid fa-circle-xmark text-2xl group-hover:scale-110 transition-transform text-rose-400"></i>
+                    <span class="text-sm">SALAH</span>
+                </button>
+            </div>
+
+            <!-- Interactive Modal Feedback Alert (Overlays inside card) -->
+            <div id="feedback-overlay" class="hidden absolute inset-0 bg-slate-900/90 backdrop-blur-md rounded-3xl p-6 flex flex-col items-center justify-center text-center space-y-4 z-20 pop-animation">
+                <div id="fb-icon-box" class="w-16 h-16 rounded-2xl flex items-center justify-center text-3xl shadow-xl">
+                    <!-- Dynamic Icon -->
+                </div>
+
+                <div class="space-y-1">
+                    <h3 id="fb-main-title" class="text-lg sm:text-xl font-extrabold tracking-tight">
+                        <!-- "Anda keren, lanjutkan!" atau "Oke tidak masalah, mari belajar lagi!" -->
+                    </h3>
+                    <p id="fb-sub-explanation" class="text-xs sm:text-sm text-slate-300 max-w-sm mx-auto leading-relaxed">
+                        <!-- Explanation text -->
+                    </p>
+                </div>
+
+                <button id="fb-next-btn" onclick="nextQuestion()" class="px-6 py-3 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-xl text-xs sm:text-sm shadow-lg transition-all flex items-center space-x-2">
+                    <span>Lanjut ke Soal Berikutnya</span>
+                    <i class="fa-solid fa-chevron-right text-xs"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- 3. BRIDGE / PENGANTAR MATERI SELANJUTNYA SCREEN -->
+        <section id="bridge-screen" class="hidden w-full max-w-2xl glass-card rounded-3xl p-6 sm:p-8 space-y-6 pop-animation shadow-2xl">
+            
+            <!-- Result Summary Top Badge -->
+            <div class="flex items-center justify-between pb-4 border-b border-slate-700/80">
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 text-2xl">
+                        <i class="fa-solid fa-award"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-white">Review Selesai!</h3>
+                        <p class="text-xs text-slate-400">Skor Akhir Asesmen: <span id="final-score-val" class="text-brand-400 font-bold">0</span> / 100</p>
+                    </div>
+                </div>
+                <span id="final-badge-status" class="px-3 py-1 bg-brand-500/20 text-brand-300 text-xs font-bold rounded-full border border-brand-400/30">
+                    Siap Pitching!
+                </span>
+            </div>
+
+            <!-- Bridge Content: Pitching & Convincing Clients -->
+            <div class="space-y-4">
+                <div class="inline-flex items-center space-x-2 text-brand-400 font-bold text-xs uppercase tracking-wider bg-brand-500/10 px-3 py-1 rounded-lg border border-brand-500/20">
+                    <i class="fa-solid fa-comments"></i>
+                    <span>Langkah Selanjutnya: Mengomunikasikan Solusi Digital</span>
+                </div>
+
+                <h2 class="text-xl sm:text-2xl font-extrabold text-white leading-snug">
+                    Bagaimana Meyakinan Klien Bahwa Solusi UI/UX Kita Relevan?
+                </h2>
+
+                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                    Setelah berhasil memetakan *Design Brief*, tantangan terbesar seorang desainer DKV bukan hanya membuat visual yang indah di Figma, tetapi <b>menyampaikan alasan logis mengapa desain tersebut menjadi solusi paling tepat bagi klien</b>.
+                </p>
+
+                <!-- 3 Pillars of Convincing Pitching -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+                    <div class="bg-slate-800/80 p-3.5 rounded-2xl border border-slate-700/80 space-y-1.5">
+                        <div class="w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold text-xs">
+                            01
+                        </div>
+                        <h4 class="font-bold text-xs text-slate-200">Hubungkan Ke Masalah</h4>
+                        <p class="text-[11px] text-slate-400 leading-normal">
+                            Tunjukkan bahwa setiap tombol & warna dibuat untuk menjawab <i>Problem Statement</i> klien.
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-800/80 p-3.5 rounded-2xl border border-slate-700/80 space-y-1.5">
+                        <div class="w-8 h-8 rounded-lg bg-brand-500/20 text-brand-400 flex items-center justify-center font-bold text-xs">
+                            02
+                        </div>
+                        <h4 class="font-bold text-xs text-slate-200">Bicarakan Bahasa User</h4>
+                        <p class="text-[11px] text-slate-400 leading-normal">
+                            Buktikan bahwa visual direction selaras dengan kebiasaan <i>Target Audience</i>.
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-800/80 p-3.5 rounded-2xl border border-slate-700/80 space-y-1.5">
+                        <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xs">
+                            03
+                        </div>
+                        <h4 class="font-bold text-xs text-slate-200">Buktian Nilai Solusi</h4>
+                        <p class="text-[11px] text-slate-400 leading-normal">
+                            Jelaskan bagaimana fitur utama (<i>Deliverables</i>) mempermudah hidup pengguna.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Action CTA -->
+            <div class="pt-4 border-t border-slate-700/80 flex flex-col sm:flex-row items-center justify-between gap-3">
+                <button onclick="restartQuiz()" class="w-full sm:w-auto px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold rounded-xl text-xs transition-colors border border-slate-700 flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-rotate-left"></i>
+                    <span>Ulangi Asesmen Awal</span>
+                </button>
+
+                <button onclick="startPitchingSession()" class="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white font-bold rounded-xl text-xs sm:text-sm shadow-lg shadow-brand-600/30 transition-all flex items-center justify-center space-x-2">
+                    <span>Lanjut Sesi Presentasi & Feedback</span>
+                    <i class="fa-solid fa-person-chalkboard"></i>
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer Information -->
+    <footer class="w-full border-t border-slate-800/80 bg-slate-900/40 py-3 text-center text-[11px] text-slate-500">
+        <p>© 2026 SMK Bhakti Persada Patebon — Modul Asesmen Interaktif DKV (UI/UX)</p>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC & AUDIO SYNTHESIZER + TEXT TO SPEECH VOICE ENGINE -->
+    <script>
+        // -------------------------------------------------------------
+        // 1. DATA SOAL BENAR / SALAH (5 ITEMS)
+        // -------------------------------------------------------------
+        const questionsData = [
+            {
+                id: 1,
+                topic: "Problem Statement",
+                question: "Problem Statement dalam Design Brief berisi daftar harga dan estimasi total biaya pembuatan aplikasi UI/UX.",
+                isTrue: false,
+                explanation: "Salah! Problem Statement adalah penjelasan mendalam tentang masalah nyata yang dialami oleh calon pengguna yang ingin diselesaikan melalui aplikasi."
+            },
+            {
+                id: 2,
+                topic: "Objective",
+                question: "Objective menentukan target konkret dan tujuan yang ingin dicapai oleh proyek perancangan sistem/aplikasi digital.",
+                isTrue: true,
+                explanation: "Benar! Objective merupakan acuan utama yang mengarahkan seluruh keputusan desain agar mencapai goal proyek yang jelas."
+            },
+            {
+                id: 3,
+                topic: "Target Audience",
+                question: "Profil Target Audience sebaiknya dibuat seluas mungkin tanpa batas usia atau kebiasaan agar aplikasi bisa disukai semua orang.",
+                isTrue: false,
+                explanation: "Salah! Target Audience harus spesifik (demografi, psikografi, kebutuhan) agar fitur dan gaya visual UI/UX tepat sasaran."
+            },
+            {
+                id: 4,
+                topic: "Scope & Deliverables",
+                question: "Scope & Deliverables merinci batasan cakupan kerja serta hasil akhir yang wajib diserahkan desainer kepada klien (misal: Moodboard, Design System, Prototype Figma).",
+                isTrue: true,
+                explanation: "Benar! Deliverables memperjelas ekspektasi hasil kerja antara tim desainer DKV dan klien agar tidak terjadi salah paham."
+            },
+            {
+                id: 5,
+                topic: "Design Constraints",
+                question: "Design Constraints adalah batasan teknis (seperti palet warna brand klien, deadline waktu, atau batasan teknologi) yang harus dipatuhi oleh desainer.",
+                isTrue: true,
+                explanation: "Benar! Constraints membantu desainer membuat solusi yang realistis dan selaras dengan identitas bisnis maupun teknis klien."
+            }
+        ];
+
+        // -------------------------------------------------------------
+        // 2. STATE MANAGEMENT & AUDIO ENGINES
+        // -------------------------------------------------------------
+        let currentIdx = 0;
+        let score = 0;
+
+        // Tone.js Musical Chime Synthesizer
+        let synth = null;
+
+        function initAudio() {
+            if (!synth) {
+                synth = new Tone.Synth().toDestination();
+            }
+            if (Tone.context.state !== 'running') {
+                Tone.start();
+            }
+        }
+
+        // Web Speech API Voice Synthesizer (Indonesian Voice Engine)
+        function speakText(textToSpeak) {
+            if ('speechSynthesis' in window) {
+                // Cancel any ongoing speech
+                window.speechSynthesis.cancel();
+                
+                const utterance = new SpeechSynthesisUtterance(textToSpeak);
+                utterance.lang = 'id-ID';
+                utterance.rate = 1.0;
+                utterance.pitch = 1.1;
+
+                // Try to get Indonesian voice if available
+                const voices = window.speechSynthesis.getVoices();
+                const idVoice = voices.find(voice => voice.lang.includes('id') || voice.lang.includes('ID'));
+                if (idVoice) {
+                    utterance.voice = idVoice;
+                }
+
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        function playSoundCorrect() {
+            try {
+                initAudio();
+                const now = Tone.now();
+                synth.triggerAttackRelease("C5", "8n", now);
+                synth.triggerAttackRelease("G5", "8n", now + 0.12);
+            } catch (e) {
+                console.log("Musical chime error", e);
+            }
+            // Voice Speech Narration: "Anda keren, lanjutkan!"
+            speakText("Anda keren, lanjutkan!");
+        }
+
+        function playSoundWrong() {
+            try {
+                initAudio();
+                const now = Tone.now();
+                synth.triggerAttackRelease("F3", "8n", now);
+                synth.triggerAttackRelease("C3", "8n", now + 0.15);
+            } catch (e) {
+                console.log("Musical chime error", e);
+            }
+            // Voice Speech Narration: "Oke tidak masalah, mari belajar lagi!"
+            speakText("Oke tidak masalah, mari belajar lagi!");
+        }
+
+        // Preload Speech Synthesis Voices
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.onvoiceschanged = () => {
+                window.speechSynthesis.getVoices();
+            };
+        }
+
+        // -------------------------------------------------------------
+        // 3. UI CONTROLLER FUNCTIONS
+        // -------------------------------------------------------------
+        function startQuiz() {
+            initAudio();
+            currentIdx = 0;
+            score = 0;
+            
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('quiz-screen').classList.remove('hidden');
+            document.getElementById('score-badge').classList.remove('hidden');
+            document.getElementById('score-badge').classList.add('flex');
+            
+            updateScoreUI();
+            loadQuestion(0);
+        }
+
+        function loadQuestion(index) {
+            const q = questionsData[index];
+            
+            // Hide Overlay
+            document.getElementById('feedback-overlay').classList.add('hidden');
+            
+            // Progress Update
+            document.getElementById('q-step').innerText = index + 1;
+            document.getElementById('q-topic').innerText = q.topic;
+            const progressPercent = ((index + 1) / questionsData.length) * 100;
+            document.getElementById('progress-bar-fill').style.width = `${progressPercent}%`;
+
+            // Question Text
+            document.getElementById('q-text').innerText = q.question;
+        }
+
+        function handleAnswer(userChoice) {
+            initAudio();
+            const q = questionsData[currentIdx];
+            const isCorrect = userChoice === q.isTrue;
+
+            const overlay = document.getElementById('feedback-overlay');
+            const iconBox = document.getElementById('fb-icon-box');
+            const mainTitle = document.getElementById('fb-main-title');
+            const subExp = document.getElementById('fb-sub-explanation');
+            const nextBtn = document.getElementById('fb-next-btn');
+
+            if (isCorrect) {
+                score += 20;
+                updateScoreUI();
+                playSoundCorrect();
+
+                iconBox.className = "w-16 h-16 rounded-2xl flex items-center justify-center text-3xl shadow-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-400";
+                iconBox.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+                mainTitle.className = "text-lg sm:text-xl font-extrabold text-emerald-400 tracking-tight";
+                mainTitle.innerText = "Anda keren, lanjutkan!";
+                subExp.innerText = q.explanation;
+            } else {
+                playSoundWrong();
+
+                iconBox.className = "w-16 h-16 rounded-2xl flex items-center justify-center text-3xl shadow-xl bg-amber-500/20 border border-amber-500/40 text-amber-400";
+                iconBox.innerHTML = '<i class="fa-solid fa-lightbulb"></i>';
+                mainTitle.className = "text-lg sm:text-xl font-extrabold text-amber-400 tracking-tight";
+                mainTitle.innerText = "Oke tidak masalah, mari belajar lagi!";
+                subExp.innerText = q.explanation;
+            }
+
+            if (currentIdx === questionsData.length - 1) {
+                nextBtn.innerHTML = '<span>Lihat Pengantar Sesi Berikutnya</span> <i class="fa-solid fa-arrow-right text-xs"></i>';
+            } else {
+                nextBtn.innerHTML = '<span>Lanjut ke Soal Berikutnya</span> <i class="fa-solid fa-chevron-right text-xs"></i>';
+            }
+
+            overlay.classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            // Stop speech narration when moving to next question
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+
+            currentIdx++;
+            if (currentIdx < questionsData.length) {
+                loadQuestion(currentIdx);
+            } else {
+                showBridgeScreen();
+            }
+        }
+
+        function updateScoreUI() {
+            document.getElementById('current-score-text').innerText = score;
+        }
+
+        function showBridgeScreen() {
+            document.getElementById('quiz-screen').classList.add('hidden');
+            document.getElementById('bridge-screen').classList.remove('hidden');
+
+            document.getElementById('final-score-val').innerText = score;
+            const badgeStatus = document.getElementById('final-badge-status');
+            
+            if (score >= 80) {
+                badgeStatus.innerText = "Sangat Siap Pitching! ⭐";
+                badgeStatus.className = "px-3 py-1 bg-emerald-500/20 text-emerald-300 text-xs font-bold rounded-full border border-emerald-400/30";
+            } else {
+                badgeStatus.innerText = "Siap Belajar Pitching! 🚀";
+                badgeStatus.className = "px-3 py-1 bg-amber-500/20 text-amber-300 text-xs font-bold rounded-full border border-amber-400/30";
+            }
+        }
+
+        function restartQuiz() {
+            document.getElementById('bridge-screen').classList.add('hidden');
+            startQuiz();
+        }
+
+        function startPitchingSession() {
+            alert("Memulai Sesi Presentasi & Peer Feedback (Rotasi Desainer vs Klien)! Silakan buka panduan LKPD kelompok Anda.");
+        }
+    </script>
+</body>
+</html>
